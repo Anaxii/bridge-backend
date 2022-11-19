@@ -42,6 +42,7 @@ type ConfigStruct struct {
 type Networks struct {
 	Name          string   `json:"string"`
 	RpcURL        string   `json:"rpc_url"`
+	WSURL         string   `json:"ws_url"`
 	ChainId       *big.Int `json:"chain_id"`
 	KYCAddress    string   `json:"kyc_address"`
 	BridgeAddress string   `json:"bridge_address"`

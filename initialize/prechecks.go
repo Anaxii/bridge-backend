@@ -4,6 +4,7 @@ import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"puffinbridgebackend/config"
+	"puffinbridgebackend/state"
 	"time"
 )
 
@@ -35,6 +36,9 @@ func RunPreChecks() {
 	log.Info("Bridge checks passed")
 
 	// subnet bridge permissions passed
+
+	state.Write([]byte("state"), []byte("block"), []byte("0"))
+	log.Info("Initialized state")
 }
 
 func waitForPass(_type string) {

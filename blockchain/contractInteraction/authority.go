@@ -19,7 +19,7 @@ func IsKYCOnMainnet(network global.Networks) bool {
 		return false
 	}
 
-	verify, err := abi.NewPuffinApprovedAccounts(common.HexToAddress(network.KYCAddress), conn)
+	verify, err := abi.NewPuffinApprovals(common.HexToAddress(network.KYCAddress), conn)
 	if err != nil {
 		log.Println("Failed to instantiate PuffinApprovedAccounts contract:", err)
 		return false

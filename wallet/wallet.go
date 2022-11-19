@@ -33,3 +33,8 @@ func Balance(network global.Networks) *big.Int {
 	return balance
 }
 
+func Block(network global.Networks) *big.Int {
+
+	return big.NewInt(0)
+}
+
