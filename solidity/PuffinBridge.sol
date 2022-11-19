@@ -45,8 +45,6 @@ contract PuffinBridge is Ownable, Pausable {
         require(PuffinApprovals(puffinAssets).isApproved(asset), "PuffinBridge: Asset is not approved");
         require(amount > 0);
 
-        // Make sure this blobId has not been used before (could be in the same block).
-
         bytes32 id = keccak256(abi.encodePacked(amount, msg.sender, block.timestamp, asset));
         IERC20(asset).transferFrom(msg.sender, address(this), amount);
         emit BridgeIn(msg.sender, asset, amount, id);

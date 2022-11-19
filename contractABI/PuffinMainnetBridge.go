@@ -39,7 +39,7 @@ type PuffinBridgeBridgeRequest struct {
 
 // PuffinMainnetBridgeMetaData contains all meta data concerning the PuffinMainnetBridge contract.
 var PuffinMainnetBridgeMetaData = &bind.MetaData{
-	ABI: "[{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"BridgOutCanceled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"BridgOutWarm\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"BridgeIn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"BridgeOut\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Paused\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Unpaused\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"addVoter\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"}],\"name\":\"bridgeIn\",\"outputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"bridgeInComplete\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"bridgeOutComplete\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"}],\"name\":\"cancelOut\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"}],\"name\":\"getRequestInfo\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expiry\",\"type\":\"uint256\"}],\"internalType\":\"structPuffinBridge.BridgeRequest\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"isVoter\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"}],\"name\":\"markInComplete\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"pause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"paused\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"}],\"name\":\"proposeOut\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"puffinAssets\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"puffinKYC\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"puffinWarmWallet\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"removeVoter\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"requestCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contract\",\"type\":\"address\"}],\"name\":\"setAssets\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contract\",\"type\":\"address\"}],\"name\":\"setKYC\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contract\",\"type\":\"address\"}],\"name\":\"setWarm\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"threshold\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"unpause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}]",
+	ABI: "[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"addVoter\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"}],\"name\":\"bridgeIn\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"BridgeIn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"BridgeOut\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"BridgeOutCanceled\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"}],\"name\":\"BridgeOutWarm\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"}],\"name\":\"cancelOut\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"}],\"name\":\"markInComplete\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"pause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Paused\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"}],\"name\":\"proposeOut\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"}],\"name\":\"removeVoter\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contract\",\"type\":\"address\"}],\"name\":\"setAssets\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contract\",\"type\":\"address\"}],\"name\":\"setKYC\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_contract\",\"type\":\"address\"}],\"name\":\"setWarm\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"unpause\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"Unpaused\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"bridgeInComplete\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"bridgeOutComplete\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"requestId\",\"type\":\"bytes32\"}],\"name\":\"getRequestInfo\",\"outputs\":[{\"components\":[{\"internalType\":\"bytes32\",\"name\":\"id\",\"type\":\"bytes32\"},{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"asset\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"expiry\",\"type\":\"uint256\"}],\"internalType\":\"structPuffinBridge.BridgeRequest\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"isVoter\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"paused\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"puffinAssets\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"puffinKYC\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"puffinWarmWallet\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"requestCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"threshold\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}]",
 }
 
 // PuffinMainnetBridgeABI is the input ABI used to generate the binding from.
@@ -552,21 +552,21 @@ func (_PuffinMainnetBridge *PuffinMainnetBridgeTransactorSession) AddVoter(user 
 
 // BridgeIn is a paid mutator transaction binding the contract method 0x7107fa82.
 //
-// Solidity: function bridgeIn(uint256 amount, address asset) returns(bytes32)
+// Solidity: function bridgeIn(uint256 amount, address asset) returns()
 func (_PuffinMainnetBridge *PuffinMainnetBridgeTransactor) BridgeIn(opts *bind.TransactOpts, amount *big.Int, asset common.Address) (*types.Transaction, error) {
 	return _PuffinMainnetBridge.contract.Transact(opts, "bridgeIn", amount, asset)
 }
 
 // BridgeIn is a paid mutator transaction binding the contract method 0x7107fa82.
 //
-// Solidity: function bridgeIn(uint256 amount, address asset) returns(bytes32)
+// Solidity: function bridgeIn(uint256 amount, address asset) returns()
 func (_PuffinMainnetBridge *PuffinMainnetBridgeSession) BridgeIn(amount *big.Int, asset common.Address) (*types.Transaction, error) {
 	return _PuffinMainnetBridge.Contract.BridgeIn(&_PuffinMainnetBridge.TransactOpts, amount, asset)
 }
 
 // BridgeIn is a paid mutator transaction binding the contract method 0x7107fa82.
 //
-// Solidity: function bridgeIn(uint256 amount, address asset) returns(bytes32)
+// Solidity: function bridgeIn(uint256 amount, address asset) returns()
 func (_PuffinMainnetBridge *PuffinMainnetBridgeTransactorSession) BridgeIn(amount *big.Int, asset common.Address) (*types.Transaction, error) {
 	return _PuffinMainnetBridge.Contract.BridgeIn(&_PuffinMainnetBridge.TransactOpts, amount, asset)
 }
@@ -800,314 +800,6 @@ func (_PuffinMainnetBridge *PuffinMainnetBridgeSession) Unpause() (*types.Transa
 // Solidity: function unpause() returns()
 func (_PuffinMainnetBridge *PuffinMainnetBridgeTransactorSession) Unpause() (*types.Transaction, error) {
 	return _PuffinMainnetBridge.Contract.Unpause(&_PuffinMainnetBridge.TransactOpts)
-}
-
-// PuffinMainnetBridgeBridgOutCanceledIterator is returned from FilterBridgOutCanceled and is used to iterate over the raw logs and unpacked data for BridgOutCanceled events raised by the PuffinMainnetBridge contract.
-type PuffinMainnetBridgeBridgOutCanceledIterator struct {
-	Event *PuffinMainnetBridgeBridgOutCanceled // Event containing the contract specifics and raw log
-
-	contract *bind.BoundContract // Generic contract to use for unpacking event data
-	event    string              // Event name to use for unpacking event data
-
-	logs chan types.Log        // Log channel receiving the found contract events
-	sub  ethereum.Subscription // Subscription for errors, completion and termination
-	done bool                  // Whether the subscription completed delivering logs
-	fail error                 // Occurred error to stop iteration
-}
-
-// Next advances the iterator to the subsequent event, returning whether there
-// are any more events found. In case of a retrieval or parsing error, false is
-// returned and Error() can be queried for the exact failure.
-func (it *PuffinMainnetBridgeBridgOutCanceledIterator) Next() bool {
-	// If the iterator failed, stop iterating
-	if it.fail != nil {
-		return false
-	}
-	// If the iterator completed, deliver directly whatever's available
-	if it.done {
-		select {
-		case log := <-it.logs:
-			it.Event = new(PuffinMainnetBridgeBridgOutCanceled)
-			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
-				it.fail = err
-				return false
-			}
-			it.Event.Raw = log
-			return true
-
-		default:
-			return false
-		}
-	}
-	// Iterator still in progress, wait for either a data or an error event
-	select {
-	case log := <-it.logs:
-		it.Event = new(PuffinMainnetBridgeBridgOutCanceled)
-		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
-			it.fail = err
-			return false
-		}
-		it.Event.Raw = log
-		return true
-
-	case err := <-it.sub.Err():
-		it.done = true
-		it.fail = err
-		return it.Next()
-	}
-}
-
-// Error returns any retrieval or parsing error occurred during filtering.
-func (it *PuffinMainnetBridgeBridgOutCanceledIterator) Error() error {
-	return it.fail
-}
-
-// Close terminates the iteration process, releasing any pending underlying
-// resources.
-func (it *PuffinMainnetBridgeBridgOutCanceledIterator) Close() error {
-	it.sub.Unsubscribe()
-	return nil
-}
-
-// PuffinMainnetBridgeBridgOutCanceled represents a BridgOutCanceled event raised by the PuffinMainnetBridge contract.
-type PuffinMainnetBridgeBridgOutCanceled struct {
-	User common.Address
-	Id   [32]byte
-	Raw  types.Log // Blockchain specific contextual infos
-}
-
-// FilterBridgOutCanceled is a free log retrieval operation binding the contract event 0x83763cda1083c27b905ebe950f592d153e553a9a904894bd250f1570540ffb1e.
-//
-// Solidity: event BridgOutCanceled(address indexed user, bytes32 id)
-func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) FilterBridgOutCanceled(opts *bind.FilterOpts, user []common.Address) (*PuffinMainnetBridgeBridgOutCanceledIterator, error) {
-
-	var userRule []interface{}
-	for _, userItem := range user {
-		userRule = append(userRule, userItem)
-	}
-
-	logs, sub, err := _PuffinMainnetBridge.contract.FilterLogs(opts, "BridgOutCanceled", userRule)
-	if err != nil {
-		return nil, err
-	}
-	return &PuffinMainnetBridgeBridgOutCanceledIterator{contract: _PuffinMainnetBridge.contract, event: "BridgOutCanceled", logs: logs, sub: sub}, nil
-}
-
-// WatchBridgOutCanceled is a free log subscription operation binding the contract event 0x83763cda1083c27b905ebe950f592d153e553a9a904894bd250f1570540ffb1e.
-//
-// Solidity: event BridgOutCanceled(address indexed user, bytes32 id)
-func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) WatchBridgOutCanceled(opts *bind.WatchOpts, sink chan<- *PuffinMainnetBridgeBridgOutCanceled, user []common.Address) (event.Subscription, error) {
-
-	var userRule []interface{}
-	for _, userItem := range user {
-		userRule = append(userRule, userItem)
-	}
-
-	logs, sub, err := _PuffinMainnetBridge.contract.WatchLogs(opts, "BridgOutCanceled", userRule)
-	if err != nil {
-		return nil, err
-	}
-	return event.NewSubscription(func(quit <-chan struct{}) error {
-		defer sub.Unsubscribe()
-		for {
-			select {
-			case log := <-logs:
-				// New log arrived, parse the event and forward to the user
-				event := new(PuffinMainnetBridgeBridgOutCanceled)
-				if err := _PuffinMainnetBridge.contract.UnpackLog(event, "BridgOutCanceled", log); err != nil {
-					return err
-				}
-				event.Raw = log
-
-				select {
-				case sink <- event:
-				case err := <-sub.Err():
-					return err
-				case <-quit:
-					return nil
-				}
-			case err := <-sub.Err():
-				return err
-			case <-quit:
-				return nil
-			}
-		}
-	}), nil
-}
-
-// ParseBridgOutCanceled is a log parse operation binding the contract event 0x83763cda1083c27b905ebe950f592d153e553a9a904894bd250f1570540ffb1e.
-//
-// Solidity: event BridgOutCanceled(address indexed user, bytes32 id)
-func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) ParseBridgOutCanceled(log types.Log) (*PuffinMainnetBridgeBridgOutCanceled, error) {
-	event := new(PuffinMainnetBridgeBridgOutCanceled)
-	if err := _PuffinMainnetBridge.contract.UnpackLog(event, "BridgOutCanceled", log); err != nil {
-		return nil, err
-	}
-	event.Raw = log
-	return event, nil
-}
-
-// PuffinMainnetBridgeBridgOutWarmIterator is returned from FilterBridgOutWarm and is used to iterate over the raw logs and unpacked data for BridgOutWarm events raised by the PuffinMainnetBridge contract.
-type PuffinMainnetBridgeBridgOutWarmIterator struct {
-	Event *PuffinMainnetBridgeBridgOutWarm // Event containing the contract specifics and raw log
-
-	contract *bind.BoundContract // Generic contract to use for unpacking event data
-	event    string              // Event name to use for unpacking event data
-
-	logs chan types.Log        // Log channel receiving the found contract events
-	sub  ethereum.Subscription // Subscription for errors, completion and termination
-	done bool                  // Whether the subscription completed delivering logs
-	fail error                 // Occurred error to stop iteration
-}
-
-// Next advances the iterator to the subsequent event, returning whether there
-// are any more events found. In case of a retrieval or parsing error, false is
-// returned and Error() can be queried for the exact failure.
-func (it *PuffinMainnetBridgeBridgOutWarmIterator) Next() bool {
-	// If the iterator failed, stop iterating
-	if it.fail != nil {
-		return false
-	}
-	// If the iterator completed, deliver directly whatever's available
-	if it.done {
-		select {
-		case log := <-it.logs:
-			it.Event = new(PuffinMainnetBridgeBridgOutWarm)
-			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
-				it.fail = err
-				return false
-			}
-			it.Event.Raw = log
-			return true
-
-		default:
-			return false
-		}
-	}
-	// Iterator still in progress, wait for either a data or an error event
-	select {
-	case log := <-it.logs:
-		it.Event = new(PuffinMainnetBridgeBridgOutWarm)
-		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
-			it.fail = err
-			return false
-		}
-		it.Event.Raw = log
-		return true
-
-	case err := <-it.sub.Err():
-		it.done = true
-		it.fail = err
-		return it.Next()
-	}
-}
-
-// Error returns any retrieval or parsing error occurred during filtering.
-func (it *PuffinMainnetBridgeBridgOutWarmIterator) Error() error {
-	return it.fail
-}
-
-// Close terminates the iteration process, releasing any pending underlying
-// resources.
-func (it *PuffinMainnetBridgeBridgOutWarmIterator) Close() error {
-	it.sub.Unsubscribe()
-	return nil
-}
-
-// PuffinMainnetBridgeBridgOutWarm represents a BridgOutWarm event raised by the PuffinMainnetBridge contract.
-type PuffinMainnetBridgeBridgOutWarm struct {
-	User   common.Address
-	Asset  common.Address
-	Amount *big.Int
-	Id     [32]byte
-	Raw    types.Log // Blockchain specific contextual infos
-}
-
-// FilterBridgOutWarm is a free log retrieval operation binding the contract event 0x875375846d964a0d4bafe3b86c8fb8d4fa7af18259491c6c5f5ab56a0c1c504f.
-//
-// Solidity: event BridgOutWarm(address indexed user, address indexed asset, uint256 indexed amount, bytes32 id)
-func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) FilterBridgOutWarm(opts *bind.FilterOpts, user []common.Address, asset []common.Address, amount []*big.Int) (*PuffinMainnetBridgeBridgOutWarmIterator, error) {
-
-	var userRule []interface{}
-	for _, userItem := range user {
-		userRule = append(userRule, userItem)
-	}
-	var assetRule []interface{}
-	for _, assetItem := range asset {
-		assetRule = append(assetRule, assetItem)
-	}
-	var amountRule []interface{}
-	for _, amountItem := range amount {
-		amountRule = append(amountRule, amountItem)
-	}
-
-	logs, sub, err := _PuffinMainnetBridge.contract.FilterLogs(opts, "BridgOutWarm", userRule, assetRule, amountRule)
-	if err != nil {
-		return nil, err
-	}
-	return &PuffinMainnetBridgeBridgOutWarmIterator{contract: _PuffinMainnetBridge.contract, event: "BridgOutWarm", logs: logs, sub: sub}, nil
-}
-
-// WatchBridgOutWarm is a free log subscription operation binding the contract event 0x875375846d964a0d4bafe3b86c8fb8d4fa7af18259491c6c5f5ab56a0c1c504f.
-//
-// Solidity: event BridgOutWarm(address indexed user, address indexed asset, uint256 indexed amount, bytes32 id)
-func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) WatchBridgOutWarm(opts *bind.WatchOpts, sink chan<- *PuffinMainnetBridgeBridgOutWarm, user []common.Address, asset []common.Address, amount []*big.Int) (event.Subscription, error) {
-
-	var userRule []interface{}
-	for _, userItem := range user {
-		userRule = append(userRule, userItem)
-	}
-	var assetRule []interface{}
-	for _, assetItem := range asset {
-		assetRule = append(assetRule, assetItem)
-	}
-	var amountRule []interface{}
-	for _, amountItem := range amount {
-		amountRule = append(amountRule, amountItem)
-	}
-
-	logs, sub, err := _PuffinMainnetBridge.contract.WatchLogs(opts, "BridgOutWarm", userRule, assetRule, amountRule)
-	if err != nil {
-		return nil, err
-	}
-	return event.NewSubscription(func(quit <-chan struct{}) error {
-		defer sub.Unsubscribe()
-		for {
-			select {
-			case log := <-logs:
-				// New log arrived, parse the event and forward to the user
-				event := new(PuffinMainnetBridgeBridgOutWarm)
-				if err := _PuffinMainnetBridge.contract.UnpackLog(event, "BridgOutWarm", log); err != nil {
-					return err
-				}
-				event.Raw = log
-
-				select {
-				case sink <- event:
-				case err := <-sub.Err():
-					return err
-				case <-quit:
-					return nil
-				}
-			case err := <-sub.Err():
-				return err
-			case <-quit:
-				return nil
-			}
-		}
-	}), nil
-}
-
-// ParseBridgOutWarm is a log parse operation binding the contract event 0x875375846d964a0d4bafe3b86c8fb8d4fa7af18259491c6c5f5ab56a0c1c504f.
-//
-// Solidity: event BridgOutWarm(address indexed user, address indexed asset, uint256 indexed amount, bytes32 id)
-func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) ParseBridgOutWarm(log types.Log) (*PuffinMainnetBridgeBridgOutWarm, error) {
-	event := new(PuffinMainnetBridgeBridgOutWarm)
-	if err := _PuffinMainnetBridge.contract.UnpackLog(event, "BridgOutWarm", log); err != nil {
-		return nil, err
-	}
-	event.Raw = log
-	return event, nil
 }
 
 // PuffinMainnetBridgeBridgeInIterator is returned from FilterBridgeIn and is used to iterate over the raw logs and unpacked data for BridgeIn events raised by the PuffinMainnetBridge contract.
@@ -1430,6 +1122,314 @@ func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) WatchBridgeOut(opts *bi
 func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) ParseBridgeOut(log types.Log) (*PuffinMainnetBridgeBridgeOut, error) {
 	event := new(PuffinMainnetBridgeBridgeOut)
 	if err := _PuffinMainnetBridge.contract.UnpackLog(event, "BridgeOut", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
+}
+
+// PuffinMainnetBridgeBridgeOutCanceledIterator is returned from FilterBridgeOutCanceled and is used to iterate over the raw logs and unpacked data for BridgeOutCanceled events raised by the PuffinMainnetBridge contract.
+type PuffinMainnetBridgeBridgeOutCanceledIterator struct {
+	Event *PuffinMainnetBridgeBridgeOutCanceled // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PuffinMainnetBridgeBridgeOutCanceledIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PuffinMainnetBridgeBridgeOutCanceled)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PuffinMainnetBridgeBridgeOutCanceled)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PuffinMainnetBridgeBridgeOutCanceledIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PuffinMainnetBridgeBridgeOutCanceledIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PuffinMainnetBridgeBridgeOutCanceled represents a BridgeOutCanceled event raised by the PuffinMainnetBridge contract.
+type PuffinMainnetBridgeBridgeOutCanceled struct {
+	User common.Address
+	Id   [32]byte
+	Raw  types.Log // Blockchain specific contextual infos
+}
+
+// FilterBridgeOutCanceled is a free log retrieval operation binding the contract event 0x40278f7011e047d826661d20ccba81e3851b1837ed425b63a9a55167efabeb30.
+//
+// Solidity: event BridgeOutCanceled(address indexed user, bytes32 id)
+func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) FilterBridgeOutCanceled(opts *bind.FilterOpts, user []common.Address) (*PuffinMainnetBridgeBridgeOutCanceledIterator, error) {
+
+	var userRule []interface{}
+	for _, userItem := range user {
+		userRule = append(userRule, userItem)
+	}
+
+	logs, sub, err := _PuffinMainnetBridge.contract.FilterLogs(opts, "BridgeOutCanceled", userRule)
+	if err != nil {
+		return nil, err
+	}
+	return &PuffinMainnetBridgeBridgeOutCanceledIterator{contract: _PuffinMainnetBridge.contract, event: "BridgeOutCanceled", logs: logs, sub: sub}, nil
+}
+
+// WatchBridgeOutCanceled is a free log subscription operation binding the contract event 0x40278f7011e047d826661d20ccba81e3851b1837ed425b63a9a55167efabeb30.
+//
+// Solidity: event BridgeOutCanceled(address indexed user, bytes32 id)
+func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) WatchBridgeOutCanceled(opts *bind.WatchOpts, sink chan<- *PuffinMainnetBridgeBridgeOutCanceled, user []common.Address) (event.Subscription, error) {
+
+	var userRule []interface{}
+	for _, userItem := range user {
+		userRule = append(userRule, userItem)
+	}
+
+	logs, sub, err := _PuffinMainnetBridge.contract.WatchLogs(opts, "BridgeOutCanceled", userRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PuffinMainnetBridgeBridgeOutCanceled)
+				if err := _PuffinMainnetBridge.contract.UnpackLog(event, "BridgeOutCanceled", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseBridgeOutCanceled is a log parse operation binding the contract event 0x40278f7011e047d826661d20ccba81e3851b1837ed425b63a9a55167efabeb30.
+//
+// Solidity: event BridgeOutCanceled(address indexed user, bytes32 id)
+func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) ParseBridgeOutCanceled(log types.Log) (*PuffinMainnetBridgeBridgeOutCanceled, error) {
+	event := new(PuffinMainnetBridgeBridgeOutCanceled)
+	if err := _PuffinMainnetBridge.contract.UnpackLog(event, "BridgeOutCanceled", log); err != nil {
+		return nil, err
+	}
+	event.Raw = log
+	return event, nil
+}
+
+// PuffinMainnetBridgeBridgeOutWarmIterator is returned from FilterBridgeOutWarm and is used to iterate over the raw logs and unpacked data for BridgeOutWarm events raised by the PuffinMainnetBridge contract.
+type PuffinMainnetBridgeBridgeOutWarmIterator struct {
+	Event *PuffinMainnetBridgeBridgeOutWarm // Event containing the contract specifics and raw log
+
+	contract *bind.BoundContract // Generic contract to use for unpacking event data
+	event    string              // Event name to use for unpacking event data
+
+	logs chan types.Log        // Log channel receiving the found contract events
+	sub  ethereum.Subscription // Subscription for errors, completion and termination
+	done bool                  // Whether the subscription completed delivering logs
+	fail error                 // Occurred error to stop iteration
+}
+
+// Next advances the iterator to the subsequent event, returning whether there
+// are any more events found. In case of a retrieval or parsing error, false is
+// returned and Error() can be queried for the exact failure.
+func (it *PuffinMainnetBridgeBridgeOutWarmIterator) Next() bool {
+	// If the iterator failed, stop iterating
+	if it.fail != nil {
+		return false
+	}
+	// If the iterator completed, deliver directly whatever's available
+	if it.done {
+		select {
+		case log := <-it.logs:
+			it.Event = new(PuffinMainnetBridgeBridgeOutWarm)
+			if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+				it.fail = err
+				return false
+			}
+			it.Event.Raw = log
+			return true
+
+		default:
+			return false
+		}
+	}
+	// Iterator still in progress, wait for either a data or an error event
+	select {
+	case log := <-it.logs:
+		it.Event = new(PuffinMainnetBridgeBridgeOutWarm)
+		if err := it.contract.UnpackLog(it.Event, it.event, log); err != nil {
+			it.fail = err
+			return false
+		}
+		it.Event.Raw = log
+		return true
+
+	case err := <-it.sub.Err():
+		it.done = true
+		it.fail = err
+		return it.Next()
+	}
+}
+
+// Error returns any retrieval or parsing error occurred during filtering.
+func (it *PuffinMainnetBridgeBridgeOutWarmIterator) Error() error {
+	return it.fail
+}
+
+// Close terminates the iteration process, releasing any pending underlying
+// resources.
+func (it *PuffinMainnetBridgeBridgeOutWarmIterator) Close() error {
+	it.sub.Unsubscribe()
+	return nil
+}
+
+// PuffinMainnetBridgeBridgeOutWarm represents a BridgeOutWarm event raised by the PuffinMainnetBridge contract.
+type PuffinMainnetBridgeBridgeOutWarm struct {
+	User   common.Address
+	Asset  common.Address
+	Amount *big.Int
+	Id     [32]byte
+	Raw    types.Log // Blockchain specific contextual infos
+}
+
+// FilterBridgeOutWarm is a free log retrieval operation binding the contract event 0xcdf43e020a0b86c3f9312c3a32a8db60cddc764644a74a77294bf38d5a6265bc.
+//
+// Solidity: event BridgeOutWarm(address indexed user, address indexed asset, uint256 indexed amount, bytes32 id)
+func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) FilterBridgeOutWarm(opts *bind.FilterOpts, user []common.Address, asset []common.Address, amount []*big.Int) (*PuffinMainnetBridgeBridgeOutWarmIterator, error) {
+
+	var userRule []interface{}
+	for _, userItem := range user {
+		userRule = append(userRule, userItem)
+	}
+	var assetRule []interface{}
+	for _, assetItem := range asset {
+		assetRule = append(assetRule, assetItem)
+	}
+	var amountRule []interface{}
+	for _, amountItem := range amount {
+		amountRule = append(amountRule, amountItem)
+	}
+
+	logs, sub, err := _PuffinMainnetBridge.contract.FilterLogs(opts, "BridgeOutWarm", userRule, assetRule, amountRule)
+	if err != nil {
+		return nil, err
+	}
+	return &PuffinMainnetBridgeBridgeOutWarmIterator{contract: _PuffinMainnetBridge.contract, event: "BridgeOutWarm", logs: logs, sub: sub}, nil
+}
+
+// WatchBridgeOutWarm is a free log subscription operation binding the contract event 0xcdf43e020a0b86c3f9312c3a32a8db60cddc764644a74a77294bf38d5a6265bc.
+//
+// Solidity: event BridgeOutWarm(address indexed user, address indexed asset, uint256 indexed amount, bytes32 id)
+func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) WatchBridgeOutWarm(opts *bind.WatchOpts, sink chan<- *PuffinMainnetBridgeBridgeOutWarm, user []common.Address, asset []common.Address, amount []*big.Int) (event.Subscription, error) {
+
+	var userRule []interface{}
+	for _, userItem := range user {
+		userRule = append(userRule, userItem)
+	}
+	var assetRule []interface{}
+	for _, assetItem := range asset {
+		assetRule = append(assetRule, assetItem)
+	}
+	var amountRule []interface{}
+	for _, amountItem := range amount {
+		amountRule = append(amountRule, amountItem)
+	}
+
+	logs, sub, err := _PuffinMainnetBridge.contract.WatchLogs(opts, "BridgeOutWarm", userRule, assetRule, amountRule)
+	if err != nil {
+		return nil, err
+	}
+	return event.NewSubscription(func(quit <-chan struct{}) error {
+		defer sub.Unsubscribe()
+		for {
+			select {
+			case log := <-logs:
+				// New log arrived, parse the event and forward to the user
+				event := new(PuffinMainnetBridgeBridgeOutWarm)
+				if err := _PuffinMainnetBridge.contract.UnpackLog(event, "BridgeOutWarm", log); err != nil {
+					return err
+				}
+				event.Raw = log
+
+				select {
+				case sink <- event:
+				case err := <-sub.Err():
+					return err
+				case <-quit:
+					return nil
+				}
+			case err := <-sub.Err():
+				return err
+			case <-quit:
+				return nil
+			}
+		}
+	}), nil
+}
+
+// ParseBridgeOutWarm is a log parse operation binding the contract event 0xcdf43e020a0b86c3f9312c3a32a8db60cddc764644a74a77294bf38d5a6265bc.
+//
+// Solidity: event BridgeOutWarm(address indexed user, address indexed asset, uint256 indexed amount, bytes32 id)
+func (_PuffinMainnetBridge *PuffinMainnetBridgeFilterer) ParseBridgeOutWarm(log types.Log) (*PuffinMainnetBridgeBridgeOutWarm, error) {
+	event := new(PuffinMainnetBridgeBridgeOutWarm)
+	if err := _PuffinMainnetBridge.contract.UnpackLog(event, "BridgeOutWarm", log); err != nil {
 		return nil, err
 	}
 	event.Raw = log

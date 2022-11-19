@@ -1,6 +1,9 @@
 package global
 
-import "math/big"
+import (
+	"github.com/ethereum/go-ethereum/core/types"
+	"math/big"
+)
 
 type VerificationRequest struct {
 	Name            string          `json:"name" bson:"name"`
@@ -46,4 +49,9 @@ type Networks struct {
 	ChainId       *big.Int `json:"chain_id"`
 	KYCAddress    string   `json:"kyc_address"`
 	BridgeAddress string   `json:"bridge_address"`
+}
+
+type NetworkLog struct {
+	Log     types.Log
+	Network Networks
 }
