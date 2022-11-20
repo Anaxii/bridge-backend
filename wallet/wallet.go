@@ -35,6 +35,26 @@ func Balance(network global.Networks) *big.Int {
 
 func Block(network global.Networks) *big.Int {
 
-	return big.NewInt(0)
+	conn, err := ethclient.Dial(network.RpcURL)
+	if err != nil {
+		log.Println("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:", err)
+		log.WithFields(log.Fields{
+			"network":   network.Name,
+			"err": err,
+		}).Error("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:")
+		return big.NewInt(0)
+	}
+
+	header, err := conn.HeaderByNumber(context.Background(), nil)
+	if err != nil {
+		log.Println("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:", err)
+		log.WithFields(log.Fields{
+			"network":   network.Name,
+			"err": err,
+		}).Error("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:")
+		return big.NewInt(0)
+	}
+
+	return header.Number
 }
 

@@ -23,14 +23,14 @@ func Write(bucket []byte, key []byte, value []byte) error {
 			}).Error("state/state.go:Balance(): Failed to write")
 			return err
 		}
-		return b.Put(key, value)
+		err = b.Put(key, value)
+		return err
 	})
 	return err
 }
 
 func Read(bucket []byte, key []byte) ([]byte, error) {
 	db := openDB()
-	var val []byte
 	var ret []byte
 	defer db.Close()
 	err := db.View(func(tx *bolt.Tx) error {
@@ -42,6 +42,7 @@ func Read(bucket []byte, key []byte) ([]byte, error) {
 		ret = b.Get(key)
 		return nil
 	})
-	copy(ret, val)
+	val := make([]byte, len(ret))
+	copy(val, ret)
 	return val, err
 }

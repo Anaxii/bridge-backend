@@ -5,20 +5,7 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	log "github.com/sirupsen/logrus"
-	"math/big"
 )
-
-type LogBridgeData struct {
-	User   common.Address
-	Asset  common.Address
-	Amount *big.Int
-	Id     [32]byte
-}
-
-type LogBridgeCancelData struct {
-	User common.Address
-	Id   [32]byte
-}
 
 func LogBridge(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeData, error) {
 	log.WithFields(log.Fields{
@@ -55,19 +42,9 @@ func LogBridgeCancel(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeC
 	}).Info("New bridge event")
 
 	var data LogBridgeCancelData
-	err := _abi.UnpackIntoInterface(&data, method, vLog.Data)
-	if err != nil {
-		log.WithFields(log.Fields{
-			"bridge_address": vLog.Address,
-			"block":   vLog.BlockNumber,
-			"tx_hash": vLog.TxHash,
-			"method": method,
-		}).Error("Could not unpack event")
-		return LogBridgeCancelData{}, err
+	if len(vLog.Topics) == 3 {
+		data.User = common.HexToAddress(vLog.Topics[1].Hex())
+		data.Id = common.HexToHash(vLog.Topics[2].Hex())
 	}
-	data.User = common.HexToAddress(vLog.Topics[1].Hex())
-	// Debug ID not marshaling
-	log.Println(vLog.Topics)
-
 	return data, nil
 }

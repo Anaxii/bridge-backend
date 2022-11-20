@@ -16,7 +16,7 @@ func ListenToEvents(network global.Networks, _contractAddress string, events cha
 		log.WithFields(log.Fields{
 			"network":  network.Name,
 			"contract": _contractAddress,
-			"location": "blockchain/contractInteraction/listen.go:ListenToEvents:19",
+			"location": "blockchain/contractInteraction/listentoevents.go:ListenToEvents:19",
 		}).Fatal(err)
 	}
 
@@ -32,7 +32,7 @@ func ListenToEvents(network global.Networks, _contractAddress string, events cha
 		log.WithFields(log.Fields{
 			"network":  network.Name,
 			"contract": _contractAddress,
-			"location": "blockchain/contractInteraction/listen.go:ListenToEvents:33",
+			"location": "blockchain/contractInteraction/listentoevents.go:ListenToEvents:33",
 		}).Fatal(err)
 	}
 	go func() {
@@ -50,7 +50,7 @@ func ListenToEvents(network global.Networks, _contractAddress string, events cha
 			log.WithFields(log.Fields{
 				"network":  network.Name,
 				"contract": _contractAddress,
-				"location": "blockchain/contractInteraction/listen.go:ListenToEvents:44",
+				"location": "blockchain/contractInteraction/listentoevents.go:ListenToEvents:44",
 			}).Error("Event listener died, rebooting |", err)
 			go ListenToEvents(network, _contractAddress, events)
 			return
