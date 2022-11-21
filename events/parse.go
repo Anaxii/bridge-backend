@@ -13,20 +13,20 @@ func FindEvent(logs []types.Log, abi ethABI.ABI) error {
 	for _, vLog := range logs {
 		switch vLog.Topics[0].Hex() {
 		case global.LogBridgeInSigHash.Hex():
-			_, err = LogBridge(abi, "BridgeIn", vLog)
+			_, err = logBridge(abi, "BridgeIn", vLog)
 		case global.LogBridgeOutSigHash.Hex():
-			_, err = LogBridge(abi, "BridgeOut", vLog)
+			_, err = logBridge(abi, "BridgeOut", vLog)
 		case global.LogBridgeOutWarmSigHash.Hex():
-			_, err = LogBridge(abi, "BridgeOutWarm", vLog)
+			_, err = logBridge(abi, "BridgeOutWarm", vLog)
 		case global.LogBridgeOutCanceledSigHash.Hex():
-			_, err = LogBridgeCancel(abi, "BridgeCancel", vLog)
+			_, err = logBridgeCancel(abi, "BridgeCancel", vLog)
 
 		}
 	}
 	return err
 }
 
-func LogBridge(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeData, error) {
+func logBridge(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeData, error) {
 	log.WithFields(log.Fields{
 		"bridge_address": vLog.Address,
 		"block":   vLog.BlockNumber,
@@ -52,7 +52,7 @@ func LogBridge(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeData, e
 	return data, nil
 }
 
-func LogBridgeCancel(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeCancelData, error) {
+func logBridgeCancel(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeCancelData, error) {
 	log.WithFields(log.Fields{
 		"bridge_address": vLog.Address,
 		"block":   vLog.BlockNumber,

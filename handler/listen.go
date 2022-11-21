@@ -11,7 +11,9 @@ import (
 	"puffinbridgebackend/events"
 	"puffinbridgebackend/global"
 	"puffinbridgebackend/state"
+	"puffinbridgebackend/wallet"
 	"strings"
+	"time"
 )
 
 func (h Handler) listenToEvents() {
@@ -41,6 +43,18 @@ func (h Handler) listenToEvents() {
 		numSynced = sync(config.Subnet, x, numSynced, bridgeABI)
 	}
 
+	go func() {
+		ticker := time.NewTicker(15 * time.Second)
+
+		for range ticker.C {
+			for _, v := range config.Networks {
+				updateLastBlock(v)
+			}
+			updateLastBlock(config.Subnet)
+		}
+
+	}()
+
 	log.Info("Starting event listeners")
 	for _, v := range config.Networks {
 		go contractInteraction.ListenToEvents(v, v.BridgeAddress, event)
@@ -53,5 +67,16 @@ func (h Handler) listenToEvents() {
 			events.FindEvent([]types.Log{vLog.Log}, bridgeABI)
 			state.Write([]byte("block"), []byte(vLog.Network.Name), []byte(fmt.Sprintf("%v", vLog.Log.BlockNumber)))
 		}
+	}
+}
+
+func updateLastBlock(v global.Networks) {
+	walletBlock := wallet.Block(v)
+	if walletBlock.Int64() > 0 {
+		log.WithFields(log.Fields{
+			"block":   walletBlock.Int64(),
+			"network": v.Name,
+		}).Info("Updated last synced block")
+		state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", walletBlock.Int64())))
 	}
 }
