@@ -5,7 +5,26 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	log "github.com/sirupsen/logrus"
+	"puffinbridgebackend/global"
 )
+
+func FindEvent(logs []types.Log, abi ethABI.ABI) error {
+	var err error
+	for _, vLog := range logs {
+		switch vLog.Topics[0].Hex() {
+		case global.LogBridgeInSigHash.Hex():
+			_, err = LogBridge(abi, "BridgeIn", vLog)
+		case global.LogBridgeOutSigHash.Hex():
+			_, err = LogBridge(abi, "BridgeOut", vLog)
+		case global.LogBridgeOutWarmSigHash.Hex():
+			_, err = LogBridge(abi, "BridgeOutWarm", vLog)
+		case global.LogBridgeOutCanceledSigHash.Hex():
+			_, err = LogBridgeCancel(abi, "BridgeCancel", vLog)
+
+		}
+	}
+	return err
+}
 
 func LogBridge(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeData, error) {
 	log.WithFields(log.Fields{

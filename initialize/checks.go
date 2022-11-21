@@ -75,8 +75,8 @@ func hasBridgeVotingPower() (bool, string) {
 			return false, v.Name
 		}
 	}
-	//if !blockchain.IsKYCOnSubnet(config.Subnet) {
-	//	return false, config.Subnet.Name
-	//}
+	if !contractInteraction.IsVoterOnMainnet(config.Subnet) {
+		return false, config.Subnet.Name
+	}
 	return true, ""
 }

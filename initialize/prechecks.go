@@ -35,8 +35,6 @@ func RunPreChecks() {
 	waitForPass("bridge")
 	log.Info("Bridge checks passed")
 
-	// subnet bridge permissions passed
-
 	state.Write([]byte("state"), []byte("block"), []byte("0"))
 	log.Info("Initialized state")
 }

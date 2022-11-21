@@ -2,9 +2,6 @@ package global
 
 import "github.com/ethereum/go-ethereum/crypto"
 
-var Queue []VerificationRequest
-var CheckRequests = make(chan bool)
-
 var logBridgeInSig = []byte("BridgeIn(address,address,uint256,bytes32)")
 var logBridgeOutSig = []byte("BridgeOut(address,address,uint256,bytes32)")
 var logBridgeOutWarmSig = []byte("BridgeOutWarm(address,address,uint256,bytes32)")

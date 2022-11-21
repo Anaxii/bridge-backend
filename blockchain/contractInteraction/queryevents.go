@@ -35,19 +35,7 @@ func QueryEvent(network global.Networks, blockStart int64, blockEnd int64, addre
 		log.Fatal(err)
 	}
 
-	for _, vLog := range logs {
-		switch vLog.Topics[0].Hex() {
-		case global.LogBridgeInSigHash.Hex():
-			_, err = events.LogBridge(abi, "BridgeIn", vLog)
-		case global.LogBridgeOutSigHash.Hex():
-			_, err = events.LogBridge(abi, "BridgeOut", vLog)
-		case global.LogBridgeOutWarmSigHash.Hex():
-			_, err = events.LogBridge(abi, "BridgeOutWarm", vLog)
-		case global.LogBridgeOutCanceledSigHash.Hex():
-			_, err = events.LogBridgeCancel(abi, "BridgeCancel", vLog)
-
-		}
-	}
+	err = events.FindEvent(logs, abi)
 
 
 }
