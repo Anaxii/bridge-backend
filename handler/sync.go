@@ -6,11 +6,42 @@ import (
 	log "github.com/sirupsen/logrus"
 	"math/big"
 	"puffinbridgebackend/blockchain/contractInteraction"
+	"puffinbridgebackend/config"
 	"puffinbridgebackend/global"
 	"puffinbridgebackend/state"
 	"puffinbridgebackend/wallet"
 	"strconv"
 )
+
+func (h *Handler) startSync() {
+
+	log.Info("Syncing networks")
+	startBlock := map[string]int{}
+	numSynced := 0
+	for x := 0; numSynced < len(config.Networks); x++ {
+		numSynced = 0
+		for _, v := range config.Networks {
+			_numSynced, lastBlock := h.sync(v, x, numSynced, h.BridgeABI)
+			if x == 0 {
+				startBlock[v.Name] = lastBlock
+			}
+			numSynced = _numSynced
+		}
+	}
+
+	numSynced = 0
+	for x := 0; numSynced < 1; x++ {
+		_numSynced, lastBlock := h.sync(config.Subnet, x, numSynced, h.BridgeABI)
+		if x == 0 {
+			startBlock[config.Subnet.Name] = lastBlock
+		}
+		numSynced = _numSynced
+	}
+
+	for k, v := range startBlock {
+		state.Write([]byte("block"), []byte(k), []byte(fmt.Sprintf("%v", v)))
+	}
+}
 
 func (h *Handler) sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) (int, int) {
 	block, err := state.Read([]byte("block"), []byte(v.Name))

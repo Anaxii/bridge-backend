@@ -2,55 +2,20 @@ package handler
 
 import (
 	"fmt"
-	ethABI "github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/core/types"
 	log "github.com/sirupsen/logrus"
 	"puffinbridgebackend/blockchain/contractInteraction"
 	"puffinbridgebackend/config"
-	abi "puffinbridgebackend/contractABI"
 	"puffinbridgebackend/events"
 	"puffinbridgebackend/global"
 	"puffinbridgebackend/state"
 	"puffinbridgebackend/wallet"
-	"strings"
 	"time"
 )
 
 func (h *Handler) listenToEvents() {
 
 	var event = make(chan global.NetworkLog)
-
-	bridgeABI, err := ethABI.JSON(strings.NewReader(abi.PuffinMainnetBridgeABI))
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Info("Syncing networks")
-	startBlock := map[string]int{}
-	numSynced := 0
-	for x := 0; numSynced < len(config.Networks); x++ {
-		numSynced = 0
-		for _, v := range config.Networks {
-			_numSynced, lastBlock := h.sync(v, x, numSynced, bridgeABI)
-			if x == 0 {
-				startBlock[v.Name] = lastBlock
-			}
-			numSynced = _numSynced
-		}
-	}
-
-	numSynced = 0
-	for x := 0; numSynced < 1; x++ {
-		_numSynced, lastBlock := h.sync(config.Subnet, x, numSynced, bridgeABI)
-		if x == 0 {
-			startBlock[config.Subnet.Name] = lastBlock
-		}
-		numSynced = _numSynced
-	}
-
-	for k, v := range startBlock {
-		state.Write([]byte("block"), []byte(k), []byte(fmt.Sprintf("%v", v)))
-	}
 
 	go h.handleQueue()
 
@@ -74,7 +39,7 @@ func (h *Handler) listenToEvents() {
 	for {
 		select {
 		case vLog := <-event:
-			data, method, err := events.FindEvent([]types.Log{vLog.Log}, bridgeABI)
+			data, method, err := events.FindEvent([]types.Log{vLog.Log}, h.BridgeABI)
 			if err != nil {
 				log.WithFields(log.Fields{"err": err}).Info("Unable to parse event")
 			}

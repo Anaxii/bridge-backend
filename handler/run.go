@@ -1,26 +1,18 @@
 package handler
 
 import (
-	"github.com/ethereum/go-ethereum/common"
-	"math/big"
-	"puffinbridgebackend/global"
+	ethABI "github.com/ethereum/go-ethereum/accounts/abi"
+	log "github.com/sirupsen/logrus"
+	abi "puffinbridgebackend/contractABI"
+	"strings"
 )
 
-type Handler struct {
-	BridgeQueue []BridgeRequest
-}
-
-type BridgeRequest struct {
-	Id         [32]byte
-	NetworkIn  global.Networks
-	NetworkOut global.Networks
-	User       common.Address
-	Asset      common.Address
-	Amount     *big.Int
-	Block      int64
-	Method     string
-}
-
 func (h *Handler) RunHandler() {
+	bridgeABI, err := ethABI.JSON(strings.NewReader(abi.PuffinMainnetBridgeABI))
+	if err != nil {
+		log.Fatal(err)
+	}
+	h.BridgeABI = bridgeABI
+	h.startSync()
 	h.listenToEvents()
 }
