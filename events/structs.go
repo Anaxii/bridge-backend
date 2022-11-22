@@ -10,9 +10,11 @@ type LogBridgeData struct {
 	Asset  common.Address
 	Amount *big.Int
 	Id     [32]byte
+	Block  int64
 }
 
 type LogBridgeCancelData struct {
-	User common.Address
-	Id   [32]byte
+	User  common.Address
+	Id    [32]byte
+	Block int64
 }

@@ -12,7 +12,7 @@ import (
 	"puffinbridgebackend/global"
 )
 
-func QueryEvent(network global.Networks, blockStart int64, blockEnd int64, address string, abi abi.ABI) {
+func QueryEvent(network global.Networks, blockStart int64, blockEnd int64, address string, abi abi.ABI) (interface{}, string, error) {
 	query := ethereum.FilterQuery{
 		FromBlock: big.NewInt(blockStart),
 		ToBlock:   big.NewInt(blockEnd),
@@ -35,7 +35,8 @@ func QueryEvent(network global.Networks, blockStart int64, blockEnd int64, addre
 		log.Fatal(err)
 	}
 
-	err = events.FindEvent(logs, abi)
+	data, method, err := events.FindEvent(logs, abi)
 
+	return data, method, err
 
 }

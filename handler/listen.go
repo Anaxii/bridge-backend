@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-func (h Handler) listenToEvents() {
+func (h *Handler) listenToEvents() {
 
 	var event = make(chan global.NetworkLog)
 
@@ -26,33 +26,43 @@ func (h Handler) listenToEvents() {
 	}
 
 	log.Info("Syncing networks")
+	startBlock := map[string]int{}
 	numSynced := 0
-	x := 0
-	for numSynced < len(config.Networks) {
+	for x := 0; numSynced < len(config.Networks); x++ {
 		numSynced = 0
-		x++
 		for _, v := range config.Networks {
-			numSynced = sync(v, x, numSynced, bridgeABI)
+			_numSynced, lastBlock := h.sync(v, x, numSynced, bridgeABI)
+			if x == 0 {
+				startBlock[v.Name] = lastBlock
+			}
+			numSynced = _numSynced
 		}
 	}
 
-	x = 0
 	numSynced = 0
-	for numSynced < 1 {
-		x++
-		numSynced = sync(config.Subnet, x, numSynced, bridgeABI)
+	for x := 0; numSynced < 1; x++ {
+		_numSynced, lastBlock := h.sync(config.Subnet, x, numSynced, bridgeABI)
+		if x == 0 {
+			startBlock[config.Subnet.Name] = lastBlock
+		}
+		numSynced = _numSynced
 	}
+
+	for k, v := range startBlock {
+		state.Write([]byte("block"), []byte(k), []byte(fmt.Sprintf("%v", v)))
+	}
+
+	go h.handleQueue()
 
 	go func() {
 		ticker := time.NewTicker(15 * time.Second)
 
 		for range ticker.C {
 			for _, v := range config.Networks {
-				updateLastBlock(v)
+				h.updateLastBlock(v)
 			}
-			updateLastBlock(config.Subnet)
+			h.updateLastBlock(config.Subnet)
 		}
-
 	}()
 
 	log.Info("Starting event listeners")
@@ -64,19 +74,27 @@ func (h Handler) listenToEvents() {
 	for {
 		select {
 		case vLog := <-event:
-			events.FindEvent([]types.Log{vLog.Log}, bridgeABI)
-			state.Write([]byte("block"), []byte(vLog.Network.Name), []byte(fmt.Sprintf("%v", vLog.Log.BlockNumber)))
+			data, method, err := events.FindEvent([]types.Log{vLog.Log}, bridgeABI)
+			if err != nil {
+				log.WithFields(log.Fields{"err": err}).Info("Unable to parse event")
+			}
+			h.handleEvent(data, method, vLog.Network)
+			if len(h.BridgeQueue) == 0 {
+				state.Write([]byte("block"), []byte(vLog.Network.Name), []byte(fmt.Sprintf("%v", vLog.Log.BlockNumber)))
+			}
 		}
 	}
 }
 
-func updateLastBlock(v global.Networks) {
+func (h *Handler) updateLastBlock(v global.Networks) {
 	walletBlock := wallet.Block(v)
 	if walletBlock.Int64() > 0 {
 		log.WithFields(log.Fields{
 			"block":   walletBlock.Int64(),
 			"network": v.Name,
 		}).Info("Updated last synced block")
-		state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", walletBlock.Int64())))
+		if len(h.BridgeQueue) == 0 {
+			state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", walletBlock.Int64())))
+		}
 	}
 }

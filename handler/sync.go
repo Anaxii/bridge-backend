@@ -12,7 +12,7 @@ import (
 	"strconv"
 )
 
-func sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) int {
+func (h *Handler) sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) (int, int) {
 	block, err := state.Read([]byte("block"), []byte(v.Name))
 	walletBlock := wallet.Block(v)
 	if err != nil {
@@ -47,7 +47,11 @@ func sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) int {
 		if nextBlock > walletBlock.Int64() {
 			nextBlock = walletBlock.Int64()
 		}
-		contractInteraction.QueryEvent(v, int64(lastBlock), nextBlock, v.BridgeAddress, abi)
+		data, method, err := contractInteraction.QueryEvent(v, int64(lastBlock), nextBlock, v.BridgeAddress, abi)
+		h.handleEvent(data, method, v)
+		if err != nil {
+			log.WithFields(log.Fields{"err": err}).Info("Unable to parse event in sync")
+		}
 		err = state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", nextBlock)))
 		if err != nil {
 			log.WithFields(log.Fields{
@@ -57,6 +61,5 @@ func sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) int {
 		}
 	}
 
-	return numSynced
+	return numSynced, lastBlock
 }
-
