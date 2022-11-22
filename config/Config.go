@@ -25,19 +25,22 @@ func init() {
 			Networks: map[string]global.Networks{
 				"fuji": {
 					Name:          "fuji",
-					RpcURL:        "https://red-weathered-firefly.avalanche-testnet.quiknode.pro/ext/bc/C/rpc",
-					WSURL:        "wss://red-weathered-firefly.avalanche-testnet.quiknode.pro/ext/bc/C/rpc",
+					RpcURL:        "https://node.thepuffin.network/ext/bc/C/rpc",
+					WSURL:        "ws://52.35.42.217:9650/ext/bc/C/ws",
 					ChainId:       big.NewInt(43113),
-					KYCAddress:    "0x094B85f01716ddB7E07bE8E68c29d1bA6E59944e",
-					BridgeAddress: "0x7D761A316dbD5d6Ae69cb7B50b234117716a26b8",
+					KYCAddress:    "0x0d3378f28cccF59E81084Cf4f676cBcaB64ca359",
+					BridgeAddress: "0x82061925Eaae2234A4EAf69721605B743360C0C1",
+					BlockRequirement: 15,
 								},
 			},
 			Subnet:   global.Networks{
 				Name: "puffin",
 				RpcURL: "https://node.thepuffin.network/ext/bc/273dwzFtrR6JQzLncTAbN5RBtiqdysVfKTJKBvYHhtUHBnrYWe/rpc",
-				WSURL: "wss://node.thepuffin.network/ext/bc/273dwzFtrR6JQzLncTAbN5RBtiqdysVfKTJKBvYHhtUHBnrYWe/rpc",
+				WSURL: "ws://52.35.42.217:9650/ext/bc/273dwzFtrR6JQzLncTAbN5RBtiqdysVfKTJKBvYHhtUHBnrYWe/ws",
 				ChainId: big.NewInt(43113114),
 				KYCAddress: "0x0200000000000000000000000000000000000002",
+				BridgeAddress: "0xC72BBF67487d54de944FDcB2529685a32559cafC",
+				BlockRequirement: 0,
 			},
 		}, "", "  ")
 		_ = ioutil.WriteFile("config.json", file, 0644)
