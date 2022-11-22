@@ -8,7 +8,6 @@ import (
 
 type Handler struct {
 	BridgeQueue []BridgeRequest
-	//EventTopicHashes EventTopicHashes
 }
 
 type BridgeRequest struct {
@@ -20,13 +19,6 @@ type BridgeRequest struct {
 	Amount     *big.Int
 	Block      int64
 	Method     string
-}
-
-type EventTopicHashes struct {
-	LogBridgeInSigHash          common.Hash
-	LogBridgeOutSigHash         common.Hash
-	LogBridgeOutWarmSigHash     common.Hash
-	LogBridgeOutCanceledSigHash common.Hash
 }
 
 func (h *Handler) RunHandler() {

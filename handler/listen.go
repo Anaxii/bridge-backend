@@ -91,6 +91,7 @@ func (h *Handler) updateLastBlock(v global.Networks) {
 	if walletBlock.Int64() > 0 {
 		log.WithFields(log.Fields{
 			"block":   walletBlock.Int64(),
+			"queue_size": len(h.BridgeQueue),
 			"network": v.Name,
 		}).Info("Updated last synced block")
 		if len(h.BridgeQueue) == 0 {
