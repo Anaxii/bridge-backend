@@ -15,6 +15,14 @@ func (h *Handler) handleQueue() {
 		h.cleanQueue()
 		var toRemove []int
 		for k, v := range h.BridgeQueue {
+			if h.Blocks[v.NetworkIn.Name] < v.NetworkIn.BlockRequirement+int(v.Block) {
+				log.WithFields(log.Fields{
+					"network":            v.NetworkIn.Name,
+					"confirmations_left": v.NetworkIn.BlockRequirement + int(v.Block) - h.Blocks[v.NetworkIn.Name],
+					"id":                 fmt.Sprintf("0x%x", v.Id),
+				}).Info("Waiting for confirmations")
+				continue
+			}
 			if v.Method == "BridgeIn" {
 				err := contractInteraction.ProposeOut(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
 				if err == nil {
@@ -25,9 +33,17 @@ func (h *Handler) handleQueue() {
 					"user":    v.User,
 					"asset":   v.Asset,
 					"amount":  v.Amount,
-					"id":      v.Id,
+					"id":      fmt.Sprintf("0x%x", v.Id),
 				}).Info("Fulfilled bridge in -> out request")
 			} else if v.Method == "BridgeOut" {
+				if !contractInteraction.IDIsComplete(v.NetworkIn, v.Id) {
+					log.WithFields(log.Fields{
+						"network_in":  v.NetworkIn.Name,
+						"network_out": v.NetworkOut.Name,
+						"method":      v.Method,
+					}).Info("Waiting to market complete | Bridge out not confirmed on-chain")
+					return
+				}
 				err := contractInteraction.MarkComplete(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
 				if err == nil {
 					toRemove = append(toRemove, k)
@@ -37,14 +53,14 @@ func (h *Handler) handleQueue() {
 					"user":    v.User,
 					"asset":   v.Asset,
 					"amount":  v.Amount,
-					"id":      v.Id,
+					"id":      fmt.Sprintf("0x%x", v.Id),
 				}).Info("Marked bridge request complete")
 			} else if v.Method == "BridgeOutWarm" {
 				toRemove = append(toRemove, k)
 			}
 		}
 		for k, v := range toRemove {
-			if v - k >= 0 {
+			if v-k >= 0 {
 				h.removeFromQueue(v - k)
 			}
 		}
@@ -60,9 +76,9 @@ func (h *Handler) handleEvent(data interface{}, method string, network global.Ne
 		if method == "BridgeIn" {
 			if !contractInteraction.IDExists(network, d.Id) {
 				log.WithFields(log.Fields{
-					"network_in": network.Name,
-					"network_out":    otherNetwork.Name,
-					"method":   method,
+					"network_in":  network.Name,
+					"network_out": otherNetwork.Name,
+					"method":      method,
 				}).Info("Event not verified | ID doesnt exist")
 				return
 			}
@@ -70,9 +86,9 @@ func (h *Handler) handleEvent(data interface{}, method string, network global.Ne
 
 		if contractInteraction.IDIsComplete(otherNetwork, d.Id) {
 			log.WithFields(log.Fields{
-				"network_in": network.Name,
-				"network_out":    otherNetwork.Name,
-				"method":   method,
+				"network_in":  network.Name,
+				"network_out": otherNetwork.Name,
+				"method":      method,
 			}).Info("Event not verified | ID already complete")
 			return
 		}
@@ -102,11 +118,11 @@ func (h *Handler) cleanQueue() {
 	isComplete := map[string]bool{}
 	x := 0
 	for k, v := range h.BridgeQueue {
-		if isComplete[v.NetworkOut.Name + v.Method + fmt.Sprintf("%v", v.Id)] {
+		if isComplete[v.NetworkOut.Name+v.Method+fmt.Sprintf("%v", v.Id)] {
 			h.removeFromQueue(k - x)
 			x++
 		} else {
-			isComplete[v.NetworkOut.Name + fmt.Sprintf("%v", v.Id)] = true
+			isComplete[v.NetworkOut.Name+fmt.Sprintf("%v", v.Id)] = true
 		}
 	}
 }

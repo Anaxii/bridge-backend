@@ -64,7 +64,6 @@ func ProposeOut(network global.Networks, user common.Address, asset common.Addre
 		}).Warn("Failed to send ProposeOut", err)
 		return nil
 	}
-
 	return nil
 }
 

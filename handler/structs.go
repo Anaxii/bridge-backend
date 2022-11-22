@@ -10,6 +10,7 @@ import (
 type Handler struct {
 	BridgeQueue []BridgeRequest
 	BridgeABI   ethABI.ABI
+	Blocks      map[string]int
 }
 
 type BridgeRequest struct {

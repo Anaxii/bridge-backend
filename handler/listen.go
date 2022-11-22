@@ -54,13 +54,19 @@ func (h *Handler) listenToEvents() {
 func (h *Handler) updateLastBlock(v global.Networks) {
 	walletBlock := wallet.Block(v)
 	if walletBlock.Int64() > 0 {
+		h.Blocks[v.Name] = int(walletBlock.Int64())
 		if len(h.BridgeQueue) == 0 {
 			log.WithFields(log.Fields{
-				"block":   walletBlock.Int64(),
-				"queue_size": len(h.BridgeQueue),
-				"network": v.Name,
+				"block":      walletBlock.Int64(),
+				"network":    v.Name,
 			}).Info("Updated last synced block")
 			state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", walletBlock.Int64())))
+		} else {
+			log.WithFields(log.Fields{
+				"block":      walletBlock.Int64(),
+				"queue_size": len(h.BridgeQueue),
+				"network":    v.Name,
+			}).Info("Last block")
 		}
 	}
 }
