@@ -28,7 +28,7 @@ func (h *Handler) handleQueue() {
 					"id":      v.Id,
 				}).Info("Fulfilled bridge in -> out request")
 			} else if v.Method == "BridgeOut" {
-				err := contractInteraction.ProposeOut(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
+				err := contractInteraction.MarkComplete(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
 				if err == nil {
 					toRemove = append(toRemove, k)
 				}
