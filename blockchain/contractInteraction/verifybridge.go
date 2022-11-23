@@ -15,7 +15,7 @@ func IDExists(network global.Networks, requestId [32]byte) bool {
 		return false
 	}
 
-	verifyPuffin, err := abi.NewPuffinMainnetBridge(common.HexToAddress(network.BridgeAddress), conn)
+	verifyPuffin, err := abi.NewPuffinBridge(common.HexToAddress(network.BridgeAddress), conn)
 	if err != nil {
 		log.Println("Failed to instantiate PuffinApprovedAccounts contract:", err)
 		return false
@@ -37,7 +37,7 @@ func IDIsComplete(network global.Networks, requestId [32]byte) bool {
 		return false
 	}
 
-	verifyPuffin, err := abi.NewPuffinMainnetBridge(common.HexToAddress(network.BridgeAddress), conn)
+	verifyPuffin, err := abi.NewPuffinBridge(common.HexToAddress(network.BridgeAddress), conn)
 	if err != nil {
 		log.Println("Failed to instantiate PuffinApprovedAccounts contract:", err)
 		return false

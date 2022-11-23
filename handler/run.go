@@ -10,7 +10,7 @@ import (
 )
 
 func (h *Handler) RunHandler() {
-	bridgeABI, err := ethABI.JSON(strings.NewReader(abi.PuffinMainnetBridgeABI))
+	bridgeABI, err := ethABI.JSON(strings.NewReader(abi.PuffinBridgeABI))
 	if err != nil {
 		log.Fatal(err)
 	}

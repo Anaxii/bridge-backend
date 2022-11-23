@@ -25,7 +25,7 @@ func ProposeOut(network global.Networks, user common.Address, asset common.Addre
 		return err
 	}
 
-	bridge, err := abi.NewPuffinMainnetBridge(common.HexToAddress(network.BridgeAddress), conn)
+	bridge, err := abi.NewPuffinBridge(common.HexToAddress(network.BridgeAddress), conn)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"network": network.Name,
@@ -52,7 +52,7 @@ func ProposeOut(network global.Networks, user common.Address, asset common.Addre
 		return err
 	}
 
-	_, err = bridge.ProposeOut(auth, asset, user, amount, id)
+	_, err = bridge.ProposeOut(auth, asset, user, amount, id, network.ChainId)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"network": network.Name,
@@ -81,7 +81,7 @@ func MarkComplete(network global.Networks, user common.Address, asset common.Add
 		return err
 	}
 
-	bridge, err := abi.NewPuffinMainnetBridge(common.HexToAddress(network.BridgeAddress), conn)
+	bridge, err := abi.NewPuffinBridge(common.HexToAddress(network.BridgeAddress), conn)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"network": network.Name,

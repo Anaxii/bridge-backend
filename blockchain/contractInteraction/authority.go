@@ -62,7 +62,7 @@ func IsVoterOnMainnet(network global.Networks) bool {
 		return false
 	}
 
-	verifyPuffin, err := abi.NewPuffinMainnetBridge(common.HexToAddress(network.BridgeAddress), conn)
+	verifyPuffin, err := abi.NewPuffinBridge(common.HexToAddress(network.BridgeAddress), conn)
 	if err != nil {
 		log.Println("Failed to instantiate PuffinApprovedAccounts contract:", err)
 		return false

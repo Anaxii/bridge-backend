@@ -2,9 +2,9 @@ package global
 
 import "github.com/ethereum/go-ethereum/crypto"
 
-var logBridgeInSig = []byte("BridgeIn(address,address,uint256,bytes32)")
-var logBridgeOutSig = []byte("BridgeOut(address,address,uint256,bytes32)")
-var logBridgeOutWarmSig = []byte("BridgeOutWarm(address,address,uint256,bytes32)")
+var logBridgeInSig = []byte("BridgeIn(address,address,uint256,bytes32,uint256)")
+var logBridgeOutSig = []byte("BridgeOut(address,address,uint256,bytes32,uint256)")
+var logBridgeOutWarmSig = []byte("BridgeOutWarm(address,address,uint256,bytes32,uint256)")
 var logBridgeOutCanceledSig = []byte("BridgeOutCanceled(address,bytes32)")
 
 var LogBridgeInSigHash = crypto.Keccak256Hash(logBridgeInSig)

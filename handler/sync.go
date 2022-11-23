@@ -74,7 +74,7 @@ func (h *Handler) sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) 
 		numSynced++
 		state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", int64(lastBlock))))
 	} else {
-		nextBlock := int64(lastBlock) + 10
+		nextBlock := int64(lastBlock) + 100
 		if nextBlock > walletBlock.Int64() {
 			nextBlock = walletBlock.Int64()
 		}

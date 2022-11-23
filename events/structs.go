@@ -6,11 +6,12 @@ import (
 )
 
 type LogBridgeData struct {
-	User   common.Address
-	Asset  common.Address
-	Amount *big.Int
-	Id     [32]byte
-	Block  int64
+	User    common.Address
+	Asset   common.Address
+	Amount  *big.Int
+	Id      [32]byte
+	ChainId *big.Int
+	Block   int64
 }
 
 type LogBridgeCancelData struct {
