@@ -37,9 +37,11 @@ type SignatureData struct {
 }
 
 type ConfigStruct struct {
-	PrivateKey string              `json:"private_key"`
-	Networks   map[string]Networks `json:"networks"`
-	Subnet     Networks            `json:"subnet"`
+	PrivateKey    string              `json:"private_key"`
+	APIPort       string              `json:"api_port"`
+	WebsocketPort string              `json:"websocket_port"`
+	Networks      map[string]Networks `json:"networks"`
+	Subnet        Networks            `json:"subnet"`
 }
 
 type Networks struct {

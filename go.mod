@@ -5,6 +5,8 @@ go 1.17
 require (
 	github.com/boltdb/bolt v1.3.1
 	github.com/ethereum/go-ethereum v1.10.26
+	github.com/gorilla/mux v1.8.0
+	github.com/rs/cors v1.7.0
 	github.com/sirupsen/logrus v1.9.0
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
 )

@@ -17,6 +17,8 @@ var PrivateKey *ecdsa.PrivateKey
 var PublicKey string
 var Networks map[string]global.Networks
 var Subnet global.Networks
+var APIPort string
+var WebsocketPort string
 
 func init() {
 	jsonFile, err := os.Open("config.json")
@@ -64,6 +66,7 @@ func init() {
 		PublicKey = _publicKey
 		PrivateKey = _privateKey
 	}
+	APIPort = config.APIPort
 
 	log.Info("Config initialized")
 
