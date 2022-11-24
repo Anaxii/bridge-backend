@@ -23,6 +23,7 @@ func (h *Handler) RunHandler() {
 			h.Blocks[v.Name] = int(walletBlock.Int64())
 		}
 	}
+
 	walletBlock := wallet.Block(config.Subnet)
 	if walletBlock.Int64() > 0 {
 		h.Blocks[config.Subnet.Name] = int(walletBlock.Int64())

@@ -11,6 +11,12 @@ type Handler struct {
 	BridgeQueue []BridgeRequest
 	BridgeABI   ethABI.ABI
 	Blocks      map[string]int
+	Logs        []LogHistory
+}
+
+type LogHistory struct {
+	Log    BridgeRequest `json:"log"`
+	Status string        `json:"status"`
 }
 
 type BridgeRequest struct {

@@ -11,3 +11,5 @@ var LogBridgeInSigHash = crypto.Keccak256Hash(logBridgeInSig)
 var LogBridgeOutSigHash = crypto.Keccak256Hash(logBridgeOutSig)
 var LogBridgeOutWarmSigHash = crypto.Keccak256Hash(logBridgeOutWarmSig)
 var LogBridgeOutCanceledSigHash = crypto.Keccak256Hash(logBridgeOutCanceledSig)
+
+var Logs interface{}

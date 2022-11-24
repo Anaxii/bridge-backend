@@ -27,6 +27,3 @@ type NetworkLog struct {
 	Log     types.Log
 	Network Networks
 }
-
-type LogHistory struct {
-}
