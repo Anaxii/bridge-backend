@@ -14,7 +14,7 @@
     console.log("Attempting Connection...");
 
     socket.onmessage = (msg) => {
-        console.log("new msg", msg)
+        console.log("new msg", JSON.parse(msg.data))
     }
 
     socket.onopen = () => {

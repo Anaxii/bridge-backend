@@ -1,31 +1,34 @@
 package api
 
 import (
+	"encoding/json"
 	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
 	"puffinbridgebackend/global"
 )
 
 func reader(conn *websocket.Conn) {
-	var messageType int
 	enabled := map[string]bool{"logs": false}
 	go func() {
 		for {
 			// read in a message
-			messageType, msg, err := conn.ReadMessage()
+			_, msg, err := conn.ReadMessage()
 			if err != nil {
 				log.Println(err)
 				return
 			}
-
-			if err := conn.WriteMessage(messageType, []byte("Connection to Puffin Bridge handler established")); err != nil {
+			response := map[string]string{"status": "Connection to Puffin Bridge handler established"}
+			data, _ := json.Marshal(response)
+			if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
 				log.Println(err)
 				return
 			}
 
 			if string(msg) == "logs" {
 				enabled["logs"] = true
-				if err := conn.WriteMessage(messageType, []byte("Logs enabled")); err != nil {
+				response = map[string]string{"status": "Logs enabled"}
+				data, _ = json.Marshal(response)
+				if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
 					log.Println(err)
 					return
 				}
@@ -36,8 +39,13 @@ func reader(conn *websocket.Conn) {
 	for {
 		select {
 		case d := <-global.SocketChannel:
-			log.Println("CHECK")
-			if err := conn.WriteMessage(messageType, d.([]byte)); err != nil {
+			response := map[string]interface{}{"status": "log", "data": d}
+			data, err := json.Marshal(response)
+			if err != nil {
+				continue
+			}
+			if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
+				log.Println(err)
 				return
 			}
 		}
