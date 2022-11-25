@@ -7,5 +7,6 @@ COPY . .
 
 RUN go mod tidy
 
-RUN go run ./main
-#ENTRYPOINT [""]
+EXPOSE 8080
+
+CMD go run ./main
