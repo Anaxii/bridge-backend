@@ -5,6 +5,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
+	"io"
 	_log "log"
 	"net/http"
 	"puffinbridgebackend/config"
@@ -28,13 +29,46 @@ func startRest() {
 
 func getLogs(w http.ResponseWriter, r *http.Request) {
 
-	data, err := json.Marshal(global.Logs)
+	defer r.Body.Close()
+
+	if len(global.Logs) == 0 {
+		w.WriteHeader(http.StatusTooEarly)
+		return
+	}
+
+	b, err := io.ReadAll(r.Body)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	log.Println(string(data))
+
+	var body map[string]int
+
+	err = json.Unmarshal(b, &body)
+	if err != nil {
+		log.Println(err, string(b))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	lines := 50
+
+	if _, ok := body["lines"]; ok {
+		lines = body["lines"]
+	}
+
+	if lines > len(global.Logs) {
+		lines = len(global.Logs)
+	}
+
+	data, err := json.Marshal(global.Logs[:len(global.Logs)-1])
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	w.Write(data)
 
 }

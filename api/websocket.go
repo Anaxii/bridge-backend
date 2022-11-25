@@ -11,7 +11,6 @@ func reader(conn *websocket.Conn) {
 	enabled := map[string]bool{"logs": false}
 	go func() {
 		for {
-			// read in a message
 			_, msg, err := conn.ReadMessage()
 			if err != nil {
 				log.Println(err)

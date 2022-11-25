@@ -26,7 +26,9 @@ func main() {
 		_handler.Logs = logHistory
 	}
 
-	global.Logs = _handler.Logs
+	for _, v := range _handler.Logs {
+		global.Logs = append(global.Logs, v)
+	}
 
 	_handler.RunHandler()
 }
