@@ -1,19 +1,28 @@
 package initialize
 
 import (
-	"fmt"
 	log "github.com/sirupsen/logrus"
+	"os"
 	"puffinbridgebackend/config"
 	"time"
 )
 
 func RunPreChecks() {
 	if config.PublicKey == "" {
-		log.Warn("Invalid private key")
-		log.Warn("Enter a new private key or edit config.json and restart:")
+
+		log.Warn("No private key found in config.json")
 
 		var pkey string
-		fmt.Scanln(&pkey)
+
+		key := os.Getenv("private_key")
+		if key != "" {
+			pkey = key
+			log.WithFields(log.Fields{
+				"public_key": config.PublicKey,
+			}).Info("Using private key from env")
+		} else {
+			log.Fatal("Edit config.json or set env variable private_key")
+		}
 
 		_publicKey, _privateKey := config.GenerateECDSAKey(pkey)
 		config.PublicKey = _publicKey
@@ -51,4 +60,3 @@ func waitForPass(_type string) {
 		time.Sleep(time.Second)
 	}
 }
-
