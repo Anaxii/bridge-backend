@@ -1,4 +1,4 @@
 *.pem
-config.json
+*.json
 .idea
 *.db
