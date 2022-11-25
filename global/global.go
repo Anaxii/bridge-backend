@@ -13,3 +13,4 @@ var LogBridgeOutWarmSigHash = crypto.Keccak256Hash(logBridgeOutWarmSig)
 var LogBridgeOutCanceledSigHash = crypto.Keccak256Hash(logBridgeOutCanceledSig)
 
 var Logs interface{}
+var SocketChannel = make(chan interface{})
