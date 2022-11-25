@@ -24,6 +24,7 @@ func init() {
 	jsonFile, err := os.Open("config.json")
 	if err != nil {
 		file, _ := json.MarshalIndent(global.ConfigStruct{
+			APIPort: "80",
 			Networks: map[string]global.Networks{
 				"fuji": {
 					Name:          "fuji",
