@@ -6,10 +6,11 @@ import (
 )
 
 type ConfigStruct struct {
-	PrivateKey    string              `json:"private_key"`
-	APIPort       string              `json:"api_port"`
-	Networks      map[string]Networks `json:"networks"`
-	Subnet        Networks            `json:"subnet"`
+	PrivateKey string              `json:"private_key"`
+	APIPort    string              `json:"api_port"`
+	APIEnabled bool                `json:"api_enabled"`
+	Networks   map[string]Networks `json:"networks"`
+	Subnet     Networks            `json:"subnet"`
 }
 
 type Networks struct {

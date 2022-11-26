@@ -18,31 +18,32 @@ var PublicKey string
 var Networks map[string]global.Networks
 var Subnet global.Networks
 var APIPort string
-var WebsocketPort string
+var APIEnabled bool
 
 func init() {
 	jsonFile, err := os.Open("config.json")
 	if err != nil {
 		file, _ := json.MarshalIndent(global.ConfigStruct{
-			APIPort: "80",
+			APIPort:    "80",
+			APIEnabled: false,
 			Networks: map[string]global.Networks{
 				"fuji": {
-					Name:          "fuji",
-					RpcURL:        "https://node.thepuffin.network/ext/bc/C/rpc",
-					WSURL:        "ws://52.35.42.217:9650/ext/bc/C/ws",
-					ChainId:       big.NewInt(43113),
-					KYCAddress:    "0x0d3378f28cccF59E81084Cf4f676cBcaB64ca359",
-					BridgeAddress: "0x82061925Eaae2234A4EAf69721605B743360C0C1",
+					Name:             "fuji",
+					RpcURL:           "https://node.thepuffin.network/ext/bc/C/rpc",
+					WSURL:            "ws://52.35.42.217:9650/ext/bc/C/ws",
+					ChainId:          big.NewInt(43113),
+					KYCAddress:       "0x0d3378f28cccF59E81084Cf4f676cBcaB64ca359",
+					BridgeAddress:    "0x82061925Eaae2234A4EAf69721605B743360C0C1",
 					BlockRequirement: 15,
-								},
+				},
 			},
-			Subnet:   global.Networks{
-				Name: "puffin",
-				RpcURL: "https://node.thepuffin.network/ext/bc/273dwzFtrR6JQzLncTAbN5RBtiqdysVfKTJKBvYHhtUHBnrYWe/rpc",
-				WSURL: "ws://52.35.42.217:9650/ext/bc/273dwzFtrR6JQzLncTAbN5RBtiqdysVfKTJKBvYHhtUHBnrYWe/ws",
-				ChainId: big.NewInt(43113114),
-				KYCAddress: "0x0200000000000000000000000000000000000002",
-				BridgeAddress: "0xC72BBF67487d54de944FDcB2529685a32559cafC",
+			Subnet: global.Networks{
+				Name:             "puffin",
+				RpcURL:           "https://node.thepuffin.network/ext/bc/273dwzFtrR6JQzLncTAbN5RBtiqdysVfKTJKBvYHhtUHBnrYWe/rpc",
+				WSURL:            "ws://52.35.42.217:9650/ext/bc/273dwzFtrR6JQzLncTAbN5RBtiqdysVfKTJKBvYHhtUHBnrYWe/ws",
+				ChainId:          big.NewInt(43113114),
+				KYCAddress:       "0x0200000000000000000000000000000000000002",
+				BridgeAddress:    "0xC72BBF67487d54de944FDcB2529685a32559cafC",
 				BlockRequirement: 0,
 			},
 		}, "", "  ")
@@ -68,6 +69,7 @@ func init() {
 		PrivateKey = _privateKey
 	}
 	APIPort = config.APIPort
+	APIEnabled = config.APIEnabled
 
 	log.Info("Config initialized")
 

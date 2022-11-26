@@ -1,6 +1,7 @@
 {
   "private_key": "",
   "api_port": "8080",
+  "api_enabled": true,
   "networks": {
     "fuji": {
       "string": "fuji",

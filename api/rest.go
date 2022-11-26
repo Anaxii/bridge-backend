@@ -24,7 +24,7 @@ func startRest() {
 	r.HandleFunc("/ws", getWS).Methods("GET")
 
 	r.Use(mux.CORSMethodMiddleware(r))
-	log.Info("API and websocket opened on port " + string(config.APIPort))
+	log.Info("API and websocket opened on port " + config.APIPort)
 	_log.Fatal(http.ListenAndServe(":"+config.APIPort, r))
 }
 

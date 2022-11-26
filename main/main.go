@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	log "github.com/sirupsen/logrus"
 	"puffinbridgebackend/api"
+	"puffinbridgebackend/config"
 	"puffinbridgebackend/global"
 	"puffinbridgebackend/handler"
 	"puffinbridgebackend/initialize"
@@ -15,7 +16,10 @@ func main() {
 	initialize.RunPreChecks()
 	log.Info("Starting handler")
 
-	go api.RunAPI()
+	if config.APIEnabled {
+		log.Info("Starting API and Websocket")
+		go api.RunAPI()
+	}
 	var _handler = handler.Handler{}
 
 	var logHistory []handler.LogHistory
