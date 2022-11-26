@@ -1,5 +1,7 @@
+// SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.0;
 
-contract PuffinBridge is Ownable, Pausable {
+abstract contract PuffinBridge is Ownable, Pausable {
 
     uint256 public threshold = 0;
     uint256 public chainId;
@@ -12,10 +14,11 @@ contract PuffinBridge is Ownable, Pausable {
 
     mapping(bytes32 => bool) public bridgeInComplete;
     mapping(bytes32 => bool) public bridgeOutComplete;
-    mapping(bytes32 => uint256) public requestCount;
-    mapping(address => mapping(bytes32 => bool)) public hasVoted;
     mapping(bytes32 => bool) public bridgeIds;
     mapping(bytes32 => bool) public requiresWarmWallet;
+
+    mapping(bytes32 => uint256) public requestCount;
+    mapping(address => mapping(bytes32 => bool)) public hasVoted;
 
     mapping(bytes32 => BridgeRequest) public requestInfo;
 
@@ -70,10 +73,6 @@ contract PuffinBridge is Ownable, Pausable {
         isVoter[user] = false;
     }
 
-    function getRequestInfo(bytes32 requestId) public view returns (BridgeRequest memory) {
-        return requestInfo[requestId];
-    }
-
     function setKYC(address _contract) external onlyOwner {
         puffinKYC = _contract;
     }
@@ -93,20 +92,34 @@ contract PuffinBridge is Ownable, Pausable {
     function transferWarm(address asset, uint256 amount) external onlyOwner {
         IERC20(asset).transfer(puffinWarmWallet, amount);
     }
+
+    function getRequestInfo(
+        bytes32 requestId
+    ) public view returns (BridgeRequest memory) {
+        return requestInfo[requestId];
+    }
 }
 
-contract PuffinMainnetbridge is PuffinBridge {
+contract PuffinMainnetbridge is PuffinBridge, ReentrancyGuard  {
 
     constructor(uint256 _chainId) PuffinBridge(_chainId) {
 
     }
 
-    function proposeOut(address asset, address user, uint256 amount, bytes32 requestId, uint256 fromChainId) public whenNotPaused {
+    function proposeOut(
+        address asset,
+        address user,
+        uint256 amount,
+        bytes32 requestId,
+        uint256 fromChainId
+    ) external whenNotPaused nonReentrant {
         require(PuffinApprovals(puffinAssets).isApproved(asset), "PuffinBridge: Asset is not approved");
         require(!bridgeOutComplete[requestId], "PuffinBridge: Request already complete");
         require(isVoter[msg.sender], "PuffinBridge: Not a voter");
-        require(!hasVoted[msg.sender][requestId]);
-        require(user != address(0));
+        require(!hasVoted[msg.sender][requestId], "PuffinBridge: User has voted");
+
+        hasVoted[msg.sender][requestId] = true;
+
         if (threshold == 0)
             require(msg.sender == owner());
 
@@ -131,7 +144,10 @@ contract PuffinMainnetbridge is PuffinBridge {
         }
     }
 
-    function bridgeIn(uint256 amount, address asset) public whenNotPaused {
+    function bridgeIn(
+        uint256 amount,
+        address asset
+    ) public whenNotPaused {
         require(PuffinApprovals(puffinKYC).isApproved(msg.sender), "PuffinBridge: User is not KYC approved");
         require(PuffinApprovals(puffinAssets).isApproved(asset), "PuffinBridge: Asset is not approved");
         require(amount > 0);
@@ -144,16 +160,25 @@ contract PuffinMainnetbridge is PuffinBridge {
     }
 }
 
-contract PuffinSubnetbridge is PuffinBridge {
+contract PuffinSubnetbridge is PuffinBridge, ReentrancyGuard  {
 
     constructor(uint256 _chainId) PuffinBridge(_chainId) {
 
     }
 
-    function proposeOut(address asset, address user, uint256 amount, bytes32 requestId, uint256 fromChainId) public whenNotPaused {
+    function proposeOut(
+        address asset,
+        address user,
+        uint256 amount,
+        bytes32 requestId,
+        uint256 fromChainId
+    ) public whenNotPaused nonReentrant {
         require(!bridgeOutComplete[requestId], "PuffinBridge: Request already complete");
         require(isVoter[msg.sender], "PuffinBridge: Not a voter");
-        require(!hasVoted[msg.sender][requestId], "PuffinBridge: Has voted");
+        require(!hasVoted[msg.sender][requestId], "PuffinBridge: User has voted");
+
+        hasVoted[msg.sender][requestId] = true;
+
         if (threshold == 0)
             require(msg.sender == owner(), "PuffinBridge: Threshold 0 not owner");
 
@@ -172,7 +197,11 @@ contract PuffinSubnetbridge is PuffinBridge {
         }
     }
 
-    function bridgeIn(uint256 amount, address asset, uint256 chainId) public whenNotPaused {
+    function bridgeIn(
+        uint256 amount,
+        address asset,
+        uint256 chainId
+    ) public whenNotPaused {
         require(IAllowList(0x0200000000000000000000000000000000000002).readAllowList(msg.sender) > 0, "PuffinBridge: User is not KYC approved");
         require(amount > 0, "PuffinBridge: Amount == 0");
 

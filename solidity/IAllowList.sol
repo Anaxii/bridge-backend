@@ -1,3 +1,6 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
 interface IAllowList {
     // Set [addr] to have the admin role over the precompile
     function setAdmin(address addr) external;
