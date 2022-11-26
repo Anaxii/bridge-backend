@@ -15,9 +15,10 @@ type Handler struct {
 }
 
 type LogHistory struct {
-	Log    BridgeRequest `json:"log"`
-	Error  error         `json:"error"`
-	Status string        `json:"status"`
+	Log       BridgeRequest `json:"log"`
+	Error     string        `json:"error"`
+	Status    string        `json:"status"`
+	Timestamp int64         `json:"timestamp"`
 }
 
 type BridgeRequest struct {

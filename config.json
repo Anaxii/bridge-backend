@@ -10,7 +10,7 @@
       "chain_id": 43113,
       "kyc_address": "0x0d3378f28cccF59E81084Cf4f676cBcaB64ca359",
       "bridge_address": "0x40dA58598877009868B9B876f52d31a0C204FC63",
-      "block_requirement": 15
+      "block_requirement": 3
     }
   },
   "subnet": {

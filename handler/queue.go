@@ -26,7 +26,7 @@ func (h *Handler) handleQueue() {
 			}
 			if v.Method == "BridgeIn" {
 				err := contractInteraction.ProposeOut(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
-				if err == nil {
+				if err == nil || err.Error() == "execution reverted" {
 					toRemove = append(toRemove, k)
 				}
 				log.WithFields(log.Fields{
@@ -47,7 +47,7 @@ func (h *Handler) handleQueue() {
 					return
 				}
 				err := contractInteraction.MarkComplete(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
-				if err == nil {
+				if err == nil || err.Error() == "execution reverted" {
 					toRemove = append(toRemove, k)
 				}
 				log.WithFields(log.Fields{
@@ -59,6 +59,7 @@ func (h *Handler) handleQueue() {
 				}).Info("Marked bridge request complete")
 				h.writeLogs(v, "Marked bridge request complete", err)
 			} else if v.Method == "BridgeOutWarm" {
+				// not currently handling warm wallets
 				toRemove = append(toRemove, k)
 			}
 		}
