@@ -21,7 +21,7 @@ func (h *Handler) handleQueue() {
 					"confirmations_left": v.NetworkIn.BlockRequirement + int(v.Block) - h.Blocks[v.NetworkIn.Name],
 					"id":                 fmt.Sprintf("0x%x", v.Id),
 				}).Info("Waiting for confirmations")
-				h.writeLogs(v, "Waiting for confirmations")
+				h.writeLogs(v, "Waiting for confirmations", nil)
 				continue
 			}
 			if v.Method == "BridgeIn" {
@@ -36,7 +36,7 @@ func (h *Handler) handleQueue() {
 					"amount":  v.Amount,
 					"id":      fmt.Sprintf("0x%x", v.Id),
 				}).Info("Fulfilled bridge in -> out request")
-				h.writeLogs(v, "Fulfilled bridge in -> out request")
+				h.writeLogs(v, "Fulfilled bridge in -> out request", err)
 			} else if v.Method == "BridgeOut" {
 				if !contractInteraction.IDIsComplete(v.NetworkIn, v.Id) {
 					log.WithFields(log.Fields{
@@ -57,7 +57,7 @@ func (h *Handler) handleQueue() {
 					"amount":  v.Amount,
 					"id":      fmt.Sprintf("0x%x", v.Id),
 				}).Info("Marked bridge request complete")
-				h.writeLogs(v, "Marked bridge request complete")
+				h.writeLogs(v, "Marked bridge request complete", err)
 			} else if v.Method == "BridgeOutWarm" {
 				toRemove = append(toRemove, k)
 			}
