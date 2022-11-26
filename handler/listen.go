@@ -21,12 +21,18 @@ func (h *Handler) listenToEvents() {
 
 	go func() {
 		ticker := time.NewTicker(15 * time.Second)
-
+		x := 3
 		for range ticker.C {
 			for _, v := range config.Networks {
-				h.updateLastBlock(v)
+				h.updateLastBlock(v, x)
 			}
-			h.updateLastBlock(config.Subnet)
+			h.updateLastBlock(config.Subnet, x)
+
+			if x == 3 {
+				x = 0
+			} else {
+				x++
+			}
 		}
 	}()
 
@@ -51,15 +57,21 @@ func (h *Handler) listenToEvents() {
 	}
 }
 
-func (h *Handler) updateLastBlock(v global.Networks) {
+func (h *Handler) updateLastBlock(v global.Networks, x int) {
 	walletBlock := wallet.Block(v)
 	if walletBlock.Int64() > 0 {
 		h.Blocks[v.Name] = int(walletBlock.Int64())
 		if len(h.BridgeQueue) == 0 {
 			log.WithFields(log.Fields{
-				"block":      walletBlock.Int64(),
-				"network":    v.Name,
+				"block":   walletBlock.Int64(),
+				"network": v.Name,
 			}).Info("Updated last synced block")
+
+			if x == 3 {
+				h.Logs = append(h.Logs, LogHistory{Status: "Updated last synced block", Log: BridgeRequest{Block: walletBlock.Int64(), NetworkIn: v}})
+				global.SocketChannel <- h.Logs[len(h.Logs)-1]
+			}
+
 			state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", walletBlock.Int64())))
 		} else {
 			log.WithFields(log.Fields{
