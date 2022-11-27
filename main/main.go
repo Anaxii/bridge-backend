@@ -13,13 +13,15 @@ import (
 
 func main() {
 	log.Info("Initializing handler")
-	initialize.RunPreChecks()
-	log.Info("Starting handler")
 
 	if config.APIEnabled {
 		log.Info("Starting API and Websocket")
 		go api.RunAPI()
 	}
+
+	initialize.RunPreChecks()
+	log.Info("Starting handler")
+
 	var _handler = handler.Handler{}
 
 	var logHistory []handler.LogHistory

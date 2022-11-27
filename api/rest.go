@@ -21,11 +21,27 @@ func startRest() {
 
 	r := mux.NewRouter().StrictSlash(true)
 	r.HandleFunc("/logs", getLogs).Methods("POST")
+	r.HandleFunc("/pub", getPub).Methods("GET")
 	r.HandleFunc("/ws", getWS).Methods("GET")
 
 	r.Use(mux.CORSMethodMiddleware(r))
 	log.Info("API and websocket opened on port " + config.APIPort)
 	_log.Fatal(http.ListenAndServe(":"+config.APIPort, r))
+}
+
+func getPub(w http.ResponseWriter, r *http.Request) {
+
+	defer r.Body.Close()
+
+	data, err := json.Marshal(map[string]string{"pub": config.PublicKey})
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	w.Write(data)
+
 }
 
 func getLogs(w http.ResponseWriter, r *http.Request) {

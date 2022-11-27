@@ -3,3 +3,4 @@ wallet/config.json
 .idea
 *.db
 *.abi
+deploy.sh
