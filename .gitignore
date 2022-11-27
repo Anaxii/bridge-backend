@@ -1,5 +1,5 @@
 *.pem
-config.json
+wallet/config.json
 .idea
 *.db
 *.abi
