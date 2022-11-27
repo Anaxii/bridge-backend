@@ -17,6 +17,7 @@ func checkForBalances() bool {
 				"balance":   bal.String(),
 				"threshold": fmt.Sprintf("%v", 5),
 				"network":   v.Name,
+				"wallet_address": config.PublicKey,
 			}).Warn("Balance too low, waiting for more funds.")
 			return false
 		}
@@ -27,6 +28,7 @@ func checkForBalances() bool {
 			"balance":   bal.String(),
 			"threshold": fmt.Sprintf("%v", 5),
 			"network":   "subnet",
+			"wallet_address": config.PublicKey,
 		}).Warn("Balance too low, waiting for more funds.")
 		return false
 	}
@@ -60,10 +62,17 @@ func checkForBridgeVoter() bool {
 func hasKYC() (bool, string) {
 	for _, v := range config.Networks {
 		if !contractInteraction.IsKYCOnMainnet(v) {
+			log.WithFields(log.Fields{
+				"wallet_address": config.PublicKey,
+				"network": v.Name,
+			}).Warn("Wallet does not have kyc on mainnet.")
 			return false, v.Name
 		}
 	}
 	if !contractInteraction.IsKYCOnSubnet(config.Subnet) {
+		log.WithFields(log.Fields{
+			"wallet_address": config.PublicKey,
+		}).Warn("Wallet does not have kyc on subnet.")
 		return false, config.Subnet.Name
 	}
 	return true, ""
@@ -72,10 +81,17 @@ func hasKYC() (bool, string) {
 func hasBridgeVotingPower() (bool, string) {
 	for _, v := range config.Networks {
 		if !contractInteraction.IsVoterOnMainnet(v) {
+			log.WithFields(log.Fields{
+				"wallet_address": config.PublicKey,
+				"network": v.Name,
+			}).Warn("Wallet does not have voting power on mainnet.")
 			return false, v.Name
 		}
 	}
 	if !contractInteraction.IsVoterOnMainnet(config.Subnet) {
+		log.WithFields(log.Fields{
+			"wallet_address": config.PublicKey,
+		}).Warn("Wallet does not have voting power on subnet.")
 		return false, config.Subnet.Name
 	}
 	return true, ""
