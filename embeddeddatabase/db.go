@@ -1,9 +1,10 @@
-package state
+package embeddeddatabase
 
 import (
 	"github.com/boltdb/bolt"
 	log "github.com/sirupsen/logrus"
 )
+
 func openDB() *bolt.DB {
 	db, err := bolt.Open("state.db", 0600, nil)
 	if err != nil {
@@ -20,7 +21,7 @@ func Write(bucket []byte, key []byte, value []byte) error {
 		if err != nil {
 			log.WithFields(log.Fields{
 				"err": err,
-			}).Error("state/state.go:Balance(): Failed to write")
+			}).Error("embeddeddatabase/db.go:Balance(): Failed to write")
 			return err
 		}
 		err = b.Put(key, value)
@@ -36,7 +37,7 @@ func Read(bucket []byte, key []byte) ([]byte, error) {
 	err := db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket(bucket)
 		if b == nil {
-			log.Error("state/state.go:Balance(): Failed open bucket")
+			log.Error("embeddeddatabase/db.go:Balance(): Failed open bucket")
 			return nil
 		}
 		ret = b.Get(key)

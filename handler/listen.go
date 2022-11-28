@@ -6,9 +6,9 @@ import (
 	log "github.com/sirupsen/logrus"
 	"puffinbridgebackend/blockchain/contractInteraction"
 	"puffinbridgebackend/config"
+	"puffinbridgebackend/embeddeddatabase"
 	"puffinbridgebackend/events"
 	"puffinbridgebackend/global"
-	"puffinbridgebackend/state"
 	"puffinbridgebackend/wallet"
 	"time"
 )
@@ -51,7 +51,7 @@ func (h *Handler) listenToEvents() {
 			}
 			h.handleEvent(data, method, vLog.Network)
 			if len(h.BridgeQueue) == 0 {
-				state.Write([]byte("block"), []byte(vLog.Network.Name), []byte(fmt.Sprintf("%v", vLog.Log.BlockNumber)))
+				embeddeddatabase.Write([]byte("block"), []byte(vLog.Network.Name), []byte(fmt.Sprintf("%v", vLog.Log.BlockNumber)))
 			}
 		}
 	}
@@ -72,7 +72,7 @@ func (h *Handler) updateLastBlock(v global.Networks, x int) {
 				global.SocketChannel <- h.Logs[len(h.Logs)-1]
 			}
 
-			state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", walletBlock.Int64())))
+			embeddeddatabase.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", walletBlock.Int64())))
 		} else {
 			log.WithFields(log.Fields{
 				"block":      walletBlock.Int64(),

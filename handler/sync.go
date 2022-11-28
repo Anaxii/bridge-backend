@@ -7,8 +7,8 @@ import (
 	"math/big"
 	"puffinbridgebackend/blockchain/contractInteraction"
 	"puffinbridgebackend/config"
+	"puffinbridgebackend/embeddeddatabase"
 	"puffinbridgebackend/global"
-	"puffinbridgebackend/state"
 	"puffinbridgebackend/wallet"
 	"strconv"
 )
@@ -39,12 +39,12 @@ func (h *Handler) startSync() {
 	}
 
 	for k, v := range startBlock {
-		state.Write([]byte("block"), []byte(k), []byte(fmt.Sprintf("%v", v)))
+		embeddeddatabase.Write([]byte("block"), []byte(k), []byte(fmt.Sprintf("%v", v)))
 	}
 }
 
 func (h *Handler) sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) (int, int) {
-	block, err := state.Read([]byte("block"), []byte(v.Name))
+	block, err := embeddeddatabase.Read([]byte("block"), []byte(v.Name))
 	walletBlock := wallet.Block(v)
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -72,7 +72,7 @@ func (h *Handler) sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) 
 
 	if big.NewInt(int64(lastBlock)).Cmp(walletBlock) >= 0 {
 		numSynced++
-		state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", int64(lastBlock))))
+		embeddeddatabase.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", int64(lastBlock))))
 	} else {
 		nextBlock := int64(lastBlock) + 100
 		if nextBlock > walletBlock.Int64() {
@@ -83,7 +83,7 @@ func (h *Handler) sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) 
 		if err != nil {
 			log.WithFields(log.Fields{"err": err}).Info("Unable to parse event in sync")
 		}
-		err = state.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", nextBlock)))
+		err = embeddeddatabase.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", nextBlock)))
 		if err != nil {
 			log.WithFields(log.Fields{
 				"status": "syncing",

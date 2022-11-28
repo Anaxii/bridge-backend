@@ -2,8 +2,8 @@ package handler
 
 import (
 	"encoding/json"
+	"puffinbridgebackend/embeddeddatabase"
 	"puffinbridgebackend/global"
-	"puffinbridgebackend/state"
 	"time"
 )
 
@@ -18,5 +18,5 @@ func (h *Handler) writeLogs(v BridgeRequest, status string, err error) {
 
 	global.SocketChannel <- h.Logs[len(h.Logs)-1]
 	data, _ := json.Marshal(h.Logs)
-	state.Write([]byte("logs"), []byte("logs"), data)
+	embeddeddatabase.Write([]byte("logs"), []byte("logs"), data)
 }

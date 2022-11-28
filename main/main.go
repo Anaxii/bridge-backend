@@ -5,10 +5,10 @@ import (
 	log "github.com/sirupsen/logrus"
 	"puffinbridgebackend/api"
 	"puffinbridgebackend/config"
+	"puffinbridgebackend/embeddeddatabase"
 	"puffinbridgebackend/global"
 	"puffinbridgebackend/handler"
 	"puffinbridgebackend/initialize"
-	"puffinbridgebackend/state"
 )
 
 func main() {
@@ -25,7 +25,7 @@ func main() {
 	var _handler = handler.Handler{}
 
 	var logHistory []handler.LogHistory
-	logs, err := state.Read([]byte("logs"), []byte("logs"))
+	logs, err := embeddeddatabase.Read([]byte("logs"), []byte("logs"))
 
 	err = json.Unmarshal(logs, &logHistory)
 	if err == nil {
