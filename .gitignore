@@ -4,3 +4,4 @@ wallet/config.json
 *.db
 *.abi
 deploy.sh
+*.log
