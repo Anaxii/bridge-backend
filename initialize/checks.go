@@ -11,23 +11,23 @@ import (
 
 func checkForBalances() bool {
 	for _, v := range config.Networks {
-		bal := wallet.Balance(v)
+		bal, _ := wallet.Balance(v)
 		if bal.Cmp(big.NewInt(5)) < 0 {
 			log.WithFields(log.Fields{
-				"balance":   bal.String(),
-				"threshold": fmt.Sprintf("%v", 5),
-				"network":   v.Name,
+				"balance":        bal.String(),
+				"threshold":      fmt.Sprintf("%v", 5),
+				"network":        v.Name,
 				"wallet_address": config.PublicKey,
 			}).Warn("Balance too low, waiting for more funds.")
 			return false
 		}
 	}
-	bal := wallet.Balance(config.Subnet)
+	bal, _ := wallet.Balance(config.Subnet)
 	if bal.Cmp(big.NewInt(5)) < 0 {
 		log.WithFields(log.Fields{
-			"balance":   bal.String(),
-			"threshold": fmt.Sprintf("%v", 5),
-			"network":   "subnet",
+			"balance":        bal.String(),
+			"threshold":      fmt.Sprintf("%v", 5),
+			"network":        "subnet",
 			"wallet_address": config.PublicKey,
 		}).Warn("Balance too low, waiting for more funds.")
 		return false
@@ -39,7 +39,7 @@ func checkForKYC() bool {
 	kyc, msg := hasKYC()
 	if !kyc {
 		log.WithFields(log.Fields{
-			"network":   msg,
+			"network":        msg,
 			"wallet_address": config.PublicKey,
 		}).Warn("Wallet not approved on network.")
 		return false
@@ -51,7 +51,7 @@ func checkForBridgeVoter() bool {
 	kyc, msg := hasBridgeVotingPower()
 	if !kyc {
 		log.WithFields(log.Fields{
-			"network":   msg,
+			"network":        msg,
 			"wallet_address": config.PublicKey,
 		}).Warn("Wallet not voter on network bridge.")
 		return false
@@ -64,7 +64,7 @@ func hasKYC() (bool, string) {
 		if !contractInteraction.IsKYCOnMainnet(v) {
 			log.WithFields(log.Fields{
 				"wallet_address": config.PublicKey,
-				"network": v.Name,
+				"network":        v.Name,
 			}).Warn("Wallet does not have kyc on mainnet.")
 			return false, v.Name
 		}
@@ -83,7 +83,7 @@ func hasBridgeVotingPower() (bool, string) {
 		if !contractInteraction.IsVoterOnMainnet(v) {
 			log.WithFields(log.Fields{
 				"wallet_address": config.PublicKey,
-				"network": v.Name,
+				"network":        v.Name,
 			}).Warn("Wallet does not have voting power on mainnet.")
 			return false, v.Name
 		}

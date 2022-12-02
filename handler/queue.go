@@ -15,18 +15,18 @@ func (h *Handler) handleQueue() {
 		h.cleanQueue()
 		var toRemove []int
 		for k, v := range h.BridgeQueue {
-			if h.Blocks[v.NetworkIn.Name] < v.NetworkIn.BlockRequirement+int(v.Block) {
-				log.WithFields(log.Fields{
-					"network":            v.NetworkIn.Name,
-					"confirmations_left": v.NetworkIn.BlockRequirement + int(v.Block) - h.Blocks[v.NetworkIn.Name],
-					"id":                 fmt.Sprintf("0x%x", v.Id),
-				}).Info("Waiting for confirmations")
-				h.writeLogs(v, "Waiting for confirmations", nil)
-				continue
-			}
+			//if h.Blocks[v.NetworkIn.Name] < v.NetworkIn.BlockRequirement+int(v.Block) {
+			//	log.WithFields(log.Fields{
+			//		"network":            v.NetworkIn.Name,
+			//		"confirmations_left": v.NetworkIn.BlockRequirement + int(v.Block) - h.Blocks[v.NetworkIn.Name],
+			//		"id":                 fmt.Sprintf("0x%x", v.Id),
+			//	}).Info("Waiting for confirmations")
+			//	//h.writeLogs(v, "Waiting for confirmations", nil)
+			//	continue
+			//}
 			if v.Method == "BridgeIn" {
 				err := contractInteraction.ProposeOut(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
-				if err == nil || err.Error() == "execution reverted" {
+				if err == nil || err.Error() == "execution reverted: PuffinBridge: Request already complete" {
 					toRemove = append(toRemove, k)
 				}
 				log.WithFields(log.Fields{
@@ -36,7 +36,7 @@ func (h *Handler) handleQueue() {
 					"amount":  v.Amount,
 					"id":      fmt.Sprintf("0x%x", v.Id),
 				}).Info("Fulfilled bridge in -> out request")
-				h.writeLogs(v, "Fulfilled bridge in -> out request", err)
+				//h.writeLogs(v, "Fulfilled bridge in -> out request", err)
 			} else if v.Method == "BridgeOut" {
 				if !contractInteraction.IDIsComplete(v.NetworkIn, v.Id) {
 					log.WithFields(log.Fields{
@@ -44,12 +44,10 @@ func (h *Handler) handleQueue() {
 						"network_out": v.NetworkOut.Name,
 						"method":      v.Method,
 					}).Info("Waiting to market complete | Bridge out not confirmed on-chain")
-					return
+					continue
 				}
-				err := contractInteraction.MarkComplete(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
-				if err == nil || err.Error() == "execution reverted" {
-					toRemove = append(toRemove, k)
-				}
+				contractInteraction.MarkComplete(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
+				toRemove = append(toRemove, k)
 				log.WithFields(log.Fields{
 					"network": v.NetworkOut.Name,
 					"user":    v.User,
@@ -57,7 +55,7 @@ func (h *Handler) handleQueue() {
 					"amount":  v.Amount,
 					"id":      fmt.Sprintf("0x%x", v.Id),
 				}).Info("Marked bridge request complete")
-				h.writeLogs(v, "Marked bridge request complete", err)
+				//h.writeLogs(v, "Marked bridge request complete", err)
 			} else if v.Method == "BridgeOutWarm" {
 				// not currently handling warm wallets
 				toRemove = append(toRemove, k)
@@ -113,26 +111,27 @@ func (h *Handler) handleEvent(data interface{}, method string, network global.Ne
 func getOtherNetwork(network global.Networks) global.Networks {
 	if network.Name == "fuji" {
 		return config.Subnet
-	} else {
-		return config.Networks["fuji"]
 	}
+
+	return config.Networks["fuji"]
 }
 
 func (h *Handler) cleanQueue() {
 	isComplete := map[string]bool{}
-	x := 0
+
 	for k, v := range h.BridgeQueue {
-		if isComplete[v.NetworkOut.Name+v.Method+fmt.Sprintf("%v", v.Id)] {
-			h.removeFromQueue(k - x)
-			x++
+		key := fmt.Sprintf("%s%s%v", v.NetworkOut.Name, v.Method, v.Id)
+		if isComplete[key] {
+			h.BridgeQueue = append(h.BridgeQueue[:k], h.BridgeQueue[k+1:]...)
 		} else {
-			isComplete[v.NetworkOut.Name+fmt.Sprintf("%v", v.Id)] = true
+			isComplete[key] = true
 		}
 	}
 }
 
 func (h *Handler) removeFromQueue(k int) {
 	if k < 0 || k >= len(h.BridgeQueue) {
+		log.Error("BRIDGE QUEUE PARSE SKIP", k, " ", len(h.BridgeQueue))
 		return
 	} else {
 		h.BridgeQueue = append(h.BridgeQueue[:k], h.BridgeQueue[k+1:]...)

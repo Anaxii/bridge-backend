@@ -10,51 +10,54 @@ import (
 	"puffinbridgebackend/global"
 )
 
-func Balance(network global.Networks) *big.Int {
-	conn, err := ethclient.Dial(network.RpcURL)
+// DialEthClient attempts to connect to an Ethereum client using the given RPC URL
+func DialEthClient(rpcURL string) (*ethclient.Client, error) {
+	conn, err := ethclient.Dial(rpcURL)
 	if err != nil {
-		log.Println("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:", err)
 		log.WithFields(log.Fields{
-			"network":   network.Name,
-			"err": err,
-		}).Error("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:")
-		return big.NewInt(0)
+			"rpcURL": rpcURL,
+			"err":    err,
+		}).Error("Failed to connect to the Ethereum client")
+		return nil, err
+	}
+
+	return conn, nil
+}
+
+// Balance returns the balance of the wallet with the given public key on the given network
+func Balance(network global.Networks) (*big.Int, error) {
+	conn, err := DialEthClient(network.RpcURL)
+	if err != nil {
+		return big.NewInt(0), err
 	}
 
 	balance, err := conn.BalanceAt(context.Background(), common.HexToAddress(config.PublicKey), nil)
 	if err != nil {
 		log.WithFields(log.Fields{
-			"network":   network.Name,
-			"err": err,
-		}).Error("wallet/wallet.go:Balance(): Failed to call balance")
-		return big.NewInt(0)
+			"network": network.Name,
+			"err":     err,
+		}).Error("Failed to call balance")
+		return big.NewInt(0), err
 	}
 
-	return balance
+	return balance, nil
 }
 
-func Block(network global.Networks) *big.Int {
-
-	conn, err := ethclient.Dial(network.RpcURL)
+// Block returns the latest block number on the given network
+func Block(network global.Networks) (*big.Int, error) {
+	conn, err := DialEthClient(network.RpcURL)
 	if err != nil {
-		log.Println("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:", err)
-		log.WithFields(log.Fields{
-			"network":   network.Name,
-			"err": err,
-		}).Error("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:")
-		return big.NewInt(0)
+		return big.NewInt(0), err
 	}
 
 	header, err := conn.HeaderByNumber(context.Background(), nil)
 	if err != nil {
-		log.Println("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:", err)
 		log.WithFields(log.Fields{
-			"network":   network.Name,
-			"err": err,
-		}).Error("wallet/wallet.go:Balance(): Failed to connect to the Ethereum client:")
-		return big.NewInt(0)
+			"network": network.Name,
+			"err":     err,
+		}).Error("Failed to get block header")
+		return big.NewInt(0), err
 	}
 
-	return header.Number
+	return header.Number, nil
 }
-

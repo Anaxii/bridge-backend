@@ -58,19 +58,19 @@ func (h *Handler) listenToEvents() {
 }
 
 func (h *Handler) updateLastBlock(v global.Networks, x int) {
-	walletBlock := wallet.Block(v)
+	walletBlock, _ := wallet.Block(v)
+	h.Blocks[v.Name] = int(walletBlock.Int64())
 	if walletBlock.Int64() > 0 {
-		h.Blocks[v.Name] = int(walletBlock.Int64())
 		if len(h.BridgeQueue) == 0 {
 			log.WithFields(log.Fields{
 				"block":   walletBlock.Int64(),
 				"network": v.Name,
 			}).Info("Updated last synced block")
 
-			if x == 3 {
-				h.Logs = append(h.Logs, LogHistory{Status: "Updated last synced block", Log: BridgeRequest{Block: walletBlock.Int64(), NetworkIn: v}, Timestamp: time.Now().Unix()})
-				global.SocketChannel <- h.Logs[len(h.Logs)-1]
-			}
+			//if x == 3 {
+			//	h.Logs = append(h.Logs, LogHistory{Status: "Updated last synced block", Log: BridgeRequest{Block: walletBlock.Int64(), NetworkIn: v}, Timestamp: time.Now().Unix()})
+			//	global.SocketChannel <- h.Logs[len(h.Logs)-1]
+			//}
 
 			embeddeddatabase.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", walletBlock.Int64())))
 		} else {
@@ -79,6 +79,9 @@ func (h *Handler) updateLastBlock(v global.Networks, x int) {
 				"queue_size": len(h.BridgeQueue),
 				"network":    v.Name,
 			}).Info("Last block")
+			for _, v := range h.BridgeQueue {
+				log.Info(v.Method)
+			}
 		}
 	}
 }

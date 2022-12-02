@@ -18,13 +18,13 @@ func (h *Handler) RunHandler() {
 
 	h.Blocks = map[string]int{}
 	for _, v := range config.Networks {
-		walletBlock := wallet.Block(v)
+		walletBlock, _ := wallet.Block(v)
 		if walletBlock.Int64() > 0 {
 			h.Blocks[v.Name] = int(walletBlock.Int64())
 		}
 	}
 
-	walletBlock := wallet.Block(config.Subnet)
+	walletBlock, _ := wallet.Block(config.Subnet)
 	if walletBlock.Int64() > 0 {
 		h.Blocks[config.Subnet.Name] = int(walletBlock.Int64())
 	}

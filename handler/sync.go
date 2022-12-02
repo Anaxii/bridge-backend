@@ -45,7 +45,7 @@ func (h *Handler) startSync() {
 
 func (h *Handler) sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) (int, int) {
 	block, err := embeddeddatabase.Read([]byte("block"), []byte(v.Name))
-	walletBlock := wallet.Block(v)
+	walletBlock, _ := wallet.Block(v)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"status": "syncing",
