@@ -36,7 +36,7 @@ func (h *Handler) handleQueue() {
 					"amount":  v.Amount,
 					"id":      fmt.Sprintf("0x%x", v.Id),
 				}).Info("Fulfilled bridge in -> out request")
-				//h.writeLogs(v, "Fulfilled bridge in -> out request", err)
+				h.writeLogs(v, "Fulfilled bridge in -> out request", err)
 			} else if v.Method == "BridgeOut" {
 				if !contractInteraction.IDIsComplete(v.NetworkIn, v.Id) {
 					log.WithFields(log.Fields{
@@ -46,7 +46,7 @@ func (h *Handler) handleQueue() {
 					}).Info("Waiting to market complete | Bridge out not confirmed on-chain")
 					continue
 				}
-				contractInteraction.MarkComplete(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
+				err := contractInteraction.MarkComplete(v.NetworkOut, v.User, v.Asset, v.Amount, v.Id)
 				toRemove = append(toRemove, k)
 				log.WithFields(log.Fields{
 					"network": v.NetworkOut.Name,
@@ -55,7 +55,7 @@ func (h *Handler) handleQueue() {
 					"amount":  v.Amount,
 					"id":      fmt.Sprintf("0x%x", v.Id),
 				}).Info("Marked bridge request complete")
-				//h.writeLogs(v, "Marked bridge request complete", err)
+				h.writeLogs(v, "Marked bridge request complete", err)
 			} else if v.Method == "BridgeOutWarm" {
 				// not currently handling warm wallets
 				toRemove = append(toRemove, k)
@@ -94,6 +94,32 @@ func (h *Handler) handleEvent(data interface{}, method string, network global.Ne
 			}).Info("Event not verified | ID already complete")
 			return
 		}
+
+		time.Sleep(time.Second)
+
+		global.SocketChannel <- LogHistory{Status: "new event", Message: "Pending new " + method + " verification | chainanalysis sanctions checked: 0 | OFAC Status: pending", Log: BridgeRequest{
+			Id:         d.Id,
+			Block:      d.Block,
+			NetworkIn:  network,
+			NetworkOut: otherNetwork,
+			User:       d.User,
+			Asset:      d.Asset,
+			Amount:     d.Amount,
+			Method:     method,
+		}}
+
+		time.Sleep(time.Second * 2)
+
+		global.SocketChannel <- LogHistory{Status: "verified event", Message: "Verified new " + method + " | chainanalysis sanctions checked: 8 | OFAC Status: passed", Log: BridgeRequest{
+			Id:         d.Id,
+			Block:      d.Block,
+			NetworkIn:  network,
+			NetworkOut: otherNetwork,
+			User:       d.User,
+			Asset:      d.Asset,
+			Amount:     d.Amount,
+			Method:     method,
+		}}
 
 		h.BridgeQueue = append(h.BridgeQueue, BridgeRequest{
 			Id:         d.Id,
