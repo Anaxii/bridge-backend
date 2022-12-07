@@ -13,8 +13,8 @@ import (
 )
 
 var upgrader = websocket.Upgrader{
-	ReadBufferSize:  1024 * 30,
-	WriteBufferSize: 1024 * 30,
+	ReadBufferSize:  1024 * 100,
+	WriteBufferSize: 1024 * 100,
 }
 
 func startRest() {
