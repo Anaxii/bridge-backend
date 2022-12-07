@@ -4,3 +4,4 @@
 *.abi
 deploy.sh
 *.log
+*.json
