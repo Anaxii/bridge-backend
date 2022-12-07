@@ -9,6 +9,8 @@ import (
 
 func reader(conn *websocket.Conn) {
 	enabled := map[string]bool{"logs": false}
+	global.SocketCount++
+	x := 0
 	go func() {
 		for {
 			_, msg, err := conn.ReadMessage()
@@ -18,11 +20,14 @@ func reader(conn *websocket.Conn) {
 				return
 			}
 			response := map[string]string{"status": "Connection to Puffin Bridge handler established"}
-			global.SocketCount++
 			data, _ := json.Marshal(response)
-			if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
-				log.Println(err)
-				return
+			if x == 0 {
+				x++
+				if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
+					log.Println(err)
+					global.SocketCount--
+					return
+				}
 			}
 
 			if string(msg) == "logs" {
@@ -31,6 +36,15 @@ func reader(conn *websocket.Conn) {
 				data, _ = json.Marshal(response)
 				if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
 					log.Println(err)
+					return
+				}
+			}
+			if string(msg) == "ping" {
+				response = map[string]string{"status": "pong"}
+				data, _ = json.Marshal(response)
+				if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
+					log.Println(err)
+					global.SocketCount--
 					return
 				}
 			}
