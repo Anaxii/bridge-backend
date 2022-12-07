@@ -69,7 +69,7 @@ func (h *Handler) updateLastBlock(v global.Networks, x int) {
 
 			if x == 3 {
 				h.Logs = append(h.Logs, LogHistory{Status: "Updated last synced block", Message: "lastBlock", Log: BridgeRequest{Block: walletBlock.Int64(), NetworkIn: v}, Timestamp: time.Now().Unix()})
-				global.SocketChannel <- h.Logs[len(h.Logs)-1]
+				go global.Log(h.Logs[len(h.Logs)-1])
 			}
 
 			embeddeddatabase.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", walletBlock.Int64())))

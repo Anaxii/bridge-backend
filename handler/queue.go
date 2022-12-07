@@ -97,7 +97,7 @@ func (h *Handler) handleEvent(data interface{}, method string, network global.Ne
 
 		time.Sleep(time.Second)
 
-		global.SocketChannel <- LogHistory{Status: "new event", Message: "Pending new " + method + " verification | chainanalysis sanctions checked: 0 | OFAC Status: pending", Log: BridgeRequest{
+		global.Log(LogHistory{Status: "new event", Message: "Pending new " + method + " verification | chainanalysis sanctions checked: 0 | OFAC Status: pending", Log: BridgeRequest{
 			Id:         d.Id,
 			Block:      d.Block,
 			NetworkIn:  network,
@@ -106,11 +106,12 @@ func (h *Handler) handleEvent(data interface{}, method string, network global.Ne
 			Asset:      d.Asset,
 			Amount:     d.Amount,
 			Method:     method,
-		}}
+		}})
+
 
 		time.Sleep(time.Second * 2)
 
-		global.SocketChannel <- LogHistory{Status: "verified event", Message: "Verified new " + method + " | chainanalysis sanctions checked: 8 | OFAC Status: passed", Log: BridgeRequest{
+		global.Log(LogHistory{Status: "verified event", Message: "Verified new " + method + " | chainanalysis sanctions checked: 8 | OFAC Status: passed", Log: BridgeRequest{
 			Id:         d.Id,
 			Block:      d.Block,
 			NetworkIn:  network,
@@ -119,7 +120,7 @@ func (h *Handler) handleEvent(data interface{}, method string, network global.Ne
 			Asset:      d.Asset,
 			Amount:     d.Amount,
 			Method:     method,
-		}}
+		}})
 
 		h.BridgeQueue = append(h.BridgeQueue, BridgeRequest{
 			Id:         d.Id,
