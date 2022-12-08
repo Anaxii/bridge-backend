@@ -7,6 +7,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"io"
 	_log "log"
+	"math/rand"
 	"net/http"
 	"puffinbridgebackend/config"
 	"puffinbridgebackend/global"
@@ -90,6 +91,16 @@ func getLogs(w http.ResponseWriter, r *http.Request) {
 
 }
 
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func RandStringRunes(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+	}
+	return string(b)
+}
+
 func getWS(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 
@@ -98,5 +109,8 @@ func getWS(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	reader(ws)
+	data := make(chan interface{})
+	id := RandStringRunes(20)
+	global.SocketChannels[id] = data
+	reader(ws, data, id)
 }

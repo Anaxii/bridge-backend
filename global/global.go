@@ -13,12 +13,10 @@ var LogBridgeOutWarmSigHash = crypto.Keccak256Hash(logBridgeOutWarmSig)
 var LogBridgeOutCanceledSigHash = crypto.Keccak256Hash(logBridgeOutCanceledSig)
 
 var Logs []interface{}
-var SocketChannel = make(chan interface{})
-var SocketCount = 0
+var SocketChannels =  make(map[string]chan interface{})
 
 func Log(data interface{}) {
-	if SocketCount > 0 {
-		SocketChannel <- data
+	for  k := range SocketChannels {
+		SocketChannels[k] <- data
 	}
-
 }
