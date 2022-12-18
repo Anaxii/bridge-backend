@@ -5,4 +5,4 @@
 deploy.sh
 *.log
 *.json
-*.txt
+*.dat

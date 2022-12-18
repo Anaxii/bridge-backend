@@ -25,7 +25,7 @@ func EncryptAES(key []byte, text []byte) {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("key.txt", gcm.Seal(nonce, nonce, text, nil), 0777)
+	err = ioutil.WriteFile("key.dat", gcm.Seal(nonce, nonce, text, nil), 0777)
 	if err != nil {
 		// print it out
 		panic(err)
@@ -34,7 +34,7 @@ func EncryptAES(key []byte, text []byte) {
 
 func DecryptAES(key []byte) string {
 
-	ciphertext, err := ioutil.ReadFile("key.txt")
+	ciphertext, err := ioutil.ReadFile("key.dat")
 	if err != nil {
 		panic(err)
 	}
