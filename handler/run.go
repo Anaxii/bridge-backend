@@ -3,8 +3,8 @@ package handler
 import (
 	ethABI "github.com/ethereum/go-ethereum/accounts/abi"
 	log "github.com/sirupsen/logrus"
+	abi "puffinbridgebackend/blockchain/contractABI"
 	"puffinbridgebackend/config"
-	abi "puffinbridgebackend/contractABI"
 	"puffinbridgebackend/wallet"
 	"strings"
 )
@@ -17,7 +17,7 @@ func (h *Handler) RunHandler() {
 	h.BridgeABI = bridgeABI
 
 	h.Blocks = map[string]int{}
-	for _, v := range config.Networks {
+	for _, v := range config.NetworksMap {
 		walletBlock, _ := wallet.Block(v)
 		if walletBlock.Int64() > 0 {
 			h.Blocks[v.Name] = int(walletBlock.Int64())

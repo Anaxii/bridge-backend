@@ -1,4 +1,4 @@
-package contractInteraction
+package blockchain
 
 import (
 	"context"
@@ -7,16 +7,16 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
-	"puffinbridgebackend/global"
+	"puffinbridgebackend/config"
 )
 
-func ListenToEvents(network global.Networks, _contractAddress string, events chan global.NetworkLog) {
+func ListenToEvents(network config.Networks, _contractAddress string, events chan config.NetworkLog) {
 	client, err := ethclient.Dial(network.WSURL)
 	if err != nil {
 		log.WithFields(log.Fields{
 			"network":  network.Name,
 			"contract": _contractAddress,
-			"location": "blockchain/contractInteraction/listentoevents.go:ListenToEvents:19",
+			"location": "blockchain/contractInteraction/listen_to_events.go:ListenToEvents:19",
 		}).Fatal(err)
 	}
 
@@ -32,14 +32,14 @@ func ListenToEvents(network global.Networks, _contractAddress string, events cha
 		log.WithFields(log.Fields{
 			"network":  network.Name,
 			"contract": _contractAddress,
-			"location": "blockchain/contractInteraction/listentoevents.go:ListenToEvents:33",
+			"location": "blockchain/contractInteraction/listen_to_events.go:ListenToEvents:33",
 		}).Fatal(err)
 	}
 	go func() {
 		for {
 			select {
 				case ev := <-event:
-					events <- global.NetworkLog{Network: network, Log: ev}
+					events <- config.NetworkLog{Network: network, Log: ev}
 			}
 		}
 	}()
@@ -50,7 +50,7 @@ func ListenToEvents(network global.Networks, _contractAddress string, events cha
 			log.WithFields(log.Fields{
 				"network":  network.Name,
 				"contract": _contractAddress,
-				"location": "blockchain/contractInteraction/listentoevents.go:ListenToEvents:44",
+				"location": "blockchain/contractInteraction/listen_to_events.go:ListenToEvents:44",
 			}).Error("Event listener died, rebooting |", err)
 			go ListenToEvents(network, _contractAddress, events)
 			return

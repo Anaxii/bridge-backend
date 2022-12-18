@@ -4,9 +4,14 @@ import (
 	ethABI "github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/ethereum/go-ethereum/crypto"
 	log "github.com/sirupsen/logrus"
-	"puffinbridgebackend/global"
 )
+
+var logBridgeInSigHash = crypto.Keccak256Hash([]byte("BridgeIn(address,address,uint256,bytes32,uint256)"))
+var logBridgeOutSigHash = crypto.Keccak256Hash([]byte("BridgeOut(address,address,uint256,bytes32,uint256)"))
+var logBridgeOutWarmSigHash = crypto.Keccak256Hash([]byte("BridgeOutWarm(address,address,uint256,bytes32,uint256)"))
+var logBridgeOutCanceledSigHash = crypto.Keccak256Hash([]byte("BridgeOutCanceled(address,bytes32)"))
 
 func FindEvent(logs []types.Log, abi ethABI.ABI) (interface{}, string, error) {
 	var err error
@@ -14,19 +19,18 @@ func FindEvent(logs []types.Log, abi ethABI.ABI) (interface{}, string, error) {
 	method := ""
 	for _, vLog := range logs {
 		switch vLog.Topics[0].Hex() {
-		case global.LogBridgeInSigHash.Hex():
+		case logBridgeInSigHash.Hex():
 			data, err = logBridge(abi, "BridgeIn", vLog)
 			method = "BridgeIn"
-		case global.LogBridgeOutSigHash.Hex():
+		case logBridgeOutSigHash.Hex():
 			data, err = logBridge(abi, "BridgeOut", vLog)
 			method = "BridgeOut"
-		case global.LogBridgeOutWarmSigHash.Hex():
+		case logBridgeOutWarmSigHash.Hex():
 			data, err = logBridge(abi, "BridgeOutWarm", vLog)
 			method = "BridgeOutWarm"
-		case global.LogBridgeOutCanceledSigHash.Hex():
-			data, err = logBridgeCancel(abi, "BridgeCancel", vLog)
+		case logBridgeOutCanceledSigHash.Hex():
+			data, err = logBridgeCancel("BridgeCancel", vLog)
 			method = "BridgeCancel"
-
 		}
 	}
 	return data, method, err
@@ -59,7 +63,7 @@ func logBridge(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeData, e
 	return data, nil
 }
 
-func logBridgeCancel(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeCancelData, error) {
+func logBridgeCancel(method string, vLog types.Log) (LogBridgeCancelData, error) {
 	log.WithFields(log.Fields{
 		"bridge_address": vLog.Address,
 		"block":   vLog.BlockNumber,

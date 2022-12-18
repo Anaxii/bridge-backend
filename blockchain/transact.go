@@ -1,4 +1,4 @@
-package contractInteraction
+package blockchain
 
 import (
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
@@ -6,12 +6,11 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
 	"math/big"
+	abi "puffinbridgebackend/blockchain/contractABI"
 	"puffinbridgebackend/config"
-	abi "puffinbridgebackend/contractABI"
-	"puffinbridgebackend/global"
 )
 
-func ProposeOut(network global.Networks, user common.Address, asset common.Address, amount *big.Int, id [32]byte) error {
+func ProposeOut(network config.Networks, user common.Address, asset common.Address, amount *big.Int, id [32]byte) error {
 	conn, err := ethclient.Dial(network.RpcURL)
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -67,7 +66,7 @@ func ProposeOut(network global.Networks, user common.Address, asset common.Addre
 	return nil
 }
 
-func MarkComplete(network global.Networks, user common.Address, asset common.Address, amount *big.Int, id [32]byte) error {
+func MarkComplete(network config.Networks, user common.Address, asset common.Address, amount *big.Int, id [32]byte) error {
 	conn, err := ethclient.Dial(network.RpcURL)
 	if err != nil {
 		log.WithFields(log.Fields{

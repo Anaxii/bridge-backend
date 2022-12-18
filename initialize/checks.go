@@ -4,13 +4,13 @@ import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"math/big"
-	"puffinbridgebackend/blockchain/contractInteraction"
+	"puffinbridgebackend/blockchain"
 	"puffinbridgebackend/config"
 	"puffinbridgebackend/wallet"
 )
 
 func checkForBalances() bool {
-	for _, v := range config.Networks {
+	for _, v := range config.NetworksMap {
 		bal, _ := wallet.Balance(v)
 		if bal.Cmp(big.NewInt(5)) < 0 {
 			log.WithFields(log.Fields{
@@ -60,8 +60,8 @@ func checkForBridgeVoter() bool {
 }
 
 func hasKYC() (bool, string) {
-	for _, v := range config.Networks {
-		if !contractInteraction.IsKYCOnMainnet(v) {
+	for _, v := range config.NetworksMap {
+		if !blockchain.IsKYCOnMainnet(v) {
 			log.WithFields(log.Fields{
 				"wallet_address": config.PublicKey,
 				"network":        v.Name,
@@ -69,7 +69,7 @@ func hasKYC() (bool, string) {
 			return false, v.Name
 		}
 	}
-	if !contractInteraction.IsKYCOnSubnet(config.Subnet) {
+	if !blockchain.IsKYCOnSubnet(config.Subnet) {
 		log.WithFields(log.Fields{
 			"wallet_address": config.PublicKey,
 		}).Warn("Wallet does not have kyc on subnet.")
@@ -79,8 +79,8 @@ func hasKYC() (bool, string) {
 }
 
 func hasBridgeVotingPower() (bool, string) {
-	for _, v := range config.Networks {
-		if !contractInteraction.IsVoterOnMainnet(v) {
+	for _, v := range config.NetworksMap {
+		if !blockchain.IsVoterOnMainnet(v) {
 			log.WithFields(log.Fields{
 				"wallet_address": config.PublicKey,
 				"network":        v.Name,
@@ -88,7 +88,7 @@ func hasBridgeVotingPower() (bool, string) {
 			return false, v.Name
 		}
 	}
-	if !contractInteraction.IsVoterOnMainnet(config.Subnet) {
+	if !blockchain.IsVoterOnMainnet(config.Subnet) {
 		log.WithFields(log.Fields{
 			"wallet_address": config.PublicKey,
 		}).Warn("Wallet does not have voting power on subnet.")

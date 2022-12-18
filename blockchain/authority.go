@@ -1,4 +1,4 @@
-package contractInteraction
+package blockchain
 
 import (
 	"github.com/ethereum/go-ethereum/common"
@@ -6,13 +6,12 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"log"
 	"math/big"
+	abi "puffinbridgebackend/blockchain/contractABI"
 	"puffinbridgebackend/config"
-	abi "puffinbridgebackend/contractABI"
-	"puffinbridgebackend/global"
 )
 
 
-func IsKYCOnMainnet(network global.Networks) bool {
+func IsKYCOnMainnet(network config.Networks) bool {
 	conn, err := ethclient.Dial(network.RpcURL)
 	if err != nil {
 		log.Println("Failed to connect to the Ethereum client:", err)
@@ -33,7 +32,7 @@ func IsKYCOnMainnet(network global.Networks) bool {
 	return isApproved
 }
 
-func IsKYCOnSubnet(network global.Networks) bool {
+func IsKYCOnSubnet(network config.Networks) bool {
 	conn, err := ethclient.Dial(network.RpcURL)
 	if err != nil {
 		log.Println("Failed to connect to the Ethereum client:", err)
@@ -55,7 +54,7 @@ func IsKYCOnSubnet(network global.Networks) bool {
 	return isEnabled != big.NewInt(0)
 }
 
-func IsVoterOnMainnet(network global.Networks) bool {
+func IsVoterOnMainnet(network config.Networks) bool {
 	conn, err := ethclient.Dial(network.RpcURL)
 	if err != nil {
 		log.Println("Failed to connect to the Ethereum client:", err)

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
-	"puffinbridgebackend/global"
 )
 
 func reader(conn *websocket.Conn, dataChannel chan interface{}, id string) {
@@ -14,7 +13,7 @@ func reader(conn *websocket.Conn, dataChannel chan interface{}, id string) {
 		for {
 			_, msg, err := conn.ReadMessage()
 			if err != nil {
-				delete(global.SocketChannels, id)
+				delete(socketChannels, id)
 				log.Println(err)
 				return
 			}
@@ -24,7 +23,7 @@ func reader(conn *websocket.Conn, dataChannel chan interface{}, id string) {
 				x++
 				if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
 					log.Println(err)
-					delete(global.SocketChannels, id)
+					delete(socketChannels, id)
 					return
 				}
 			}
@@ -43,7 +42,7 @@ func reader(conn *websocket.Conn, dataChannel chan interface{}, id string) {
 				data, _ = json.Marshal(response)
 				if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
 					log.Println(err)
-					delete(global.SocketChannels, id)
+					delete(socketChannels, id)
 					return
 				}
 			}
@@ -61,7 +60,7 @@ func reader(conn *websocket.Conn, dataChannel chan interface{}, id string) {
 			}
 			if err := conn.WriteMessage(websocket.TextMessage, data); err != nil {
 				log.Println(err)
-				delete(global.SocketChannels, id)
+				delete(socketChannels, id)
 				return
 			}
 		}

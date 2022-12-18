@@ -1,4 +1,4 @@
-package contractInteraction
+package blockchain
 
 import (
 	"context"
@@ -8,11 +8,11 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
 	"math/big"
+	"puffinbridgebackend/config"
 	"puffinbridgebackend/events"
-	"puffinbridgebackend/global"
 )
 
-func QueryEvent(network global.Networks, blockStart int64, blockEnd int64, address string, abi abi.ABI) (interface{}, string, error) {
+func QueryEvent(network config.Networks, blockStart int64, blockEnd int64, address string, abi abi.ABI) (interface{}, string, error) {
 	query := ethereum.FilterQuery{
 		FromBlock: big.NewInt(blockStart),
 		ToBlock:   big.NewInt(blockEnd),
@@ -26,13 +26,14 @@ func QueryEvent(network global.Networks, blockStart int64, blockEnd int64, addre
 		log.WithFields(log.Fields{
 			"network":  network.Name,
 			"contract": address,
-			"location": "blockchain/contractInteraction/queryevents.go:QueryEvent:26",
+			"location": "blockchain/contractInteraction/query_events.go:QueryEvent:26",
 		}).Fatal(err)
 	}
 
 	logs, err := client.FilterLogs(context.Background(), query)
 	if err != nil {
-		log.Fatal(err)
+		log.Error(err)
+		return nil, "", err
 	}
 
 	data, method, err := events.FindEvent(logs, abi)

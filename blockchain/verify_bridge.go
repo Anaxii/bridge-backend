@@ -1,14 +1,14 @@
-package contractInteraction
+package blockchain
 
 import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
-	abi "puffinbridgebackend/contractABI"
-	"puffinbridgebackend/global"
+	abi "puffinbridgebackend/blockchain/contractABI"
+	"puffinbridgebackend/config"
 )
 
-func IDExists(network global.Networks, requestId [32]byte) bool {
+func IDExists(network config.Networks, requestId [32]byte) bool {
 	conn, err := ethclient.Dial(network.RpcURL)
 	if err != nil {
 		log.Println("Failed to connect to the Ethereum client:", err)
@@ -30,7 +30,7 @@ func IDExists(network global.Networks, requestId [32]byte) bool {
 	return exists
 }
 
-func IDIsComplete(network global.Networks, requestId [32]byte) bool {
+func IDIsComplete(network config.Networks, requestId [32]byte) bool {
 	conn, err := ethclient.Dial(network.RpcURL)
 	if err != nil {
 		log.Println("Failed to connect to the Ethereum client:", err)

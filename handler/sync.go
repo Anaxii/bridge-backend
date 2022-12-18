@@ -5,10 +5,9 @@ import (
 	ethABI "github.com/ethereum/go-ethereum/accounts/abi"
 	log "github.com/sirupsen/logrus"
 	"math/big"
-	"puffinbridgebackend/blockchain/contractInteraction"
+	"puffinbridgebackend/blockchain"
 	"puffinbridgebackend/config"
-	"puffinbridgebackend/embeddeddatabase"
-	"puffinbridgebackend/global"
+	"puffinbridgebackend/db"
 	"puffinbridgebackend/wallet"
 	"strconv"
 )
@@ -18,9 +17,9 @@ func (h *Handler) startSync() {
 	log.Info("Syncing networks")
 	startBlock := map[string]int{}
 	numSynced := 0
-	for x := 0; numSynced < len(config.Networks); x++ {
+	for x := 0; numSynced < len(config.NetworksMap); x++ {
 		numSynced = 0
-		for _, v := range config.Networks {
+		for _, v := range config.NetworksMap {
 			_numSynced, lastBlock := h.sync(v, x, numSynced, h.BridgeABI)
 			if x == 0 {
 				startBlock[v.Name] = lastBlock
@@ -39,12 +38,12 @@ func (h *Handler) startSync() {
 	}
 
 	for k, v := range startBlock {
-		embeddeddatabase.Write([]byte("block"), []byte(k), []byte(fmt.Sprintf("%v", v)))
+		db.Write([]byte("block"), []byte(k), []byte(fmt.Sprintf("%v", v)))
 	}
 }
 
-func (h *Handler) sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) (int, int) {
-	block, err := embeddeddatabase.Read([]byte("block"), []byte(v.Name))
+func (h *Handler) sync(v config.Networks, x int, numSynced int, abi ethABI.ABI) (int, int) {
+	block, err := db.Read([]byte("block"), []byte(v.Name))
 	walletBlock, _ := wallet.Block(v)
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -72,18 +71,18 @@ func (h *Handler) sync(v global.Networks, x int, numSynced int, abi ethABI.ABI) 
 
 	if big.NewInt(int64(lastBlock)).Cmp(walletBlock) >= 0 {
 		numSynced++
-		embeddeddatabase.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", int64(lastBlock))))
+		db.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", int64(lastBlock))))
 	} else {
 		nextBlock := int64(lastBlock) + 100
 		if nextBlock > walletBlock.Int64() {
 			nextBlock = walletBlock.Int64()
 		}
-		data, method, err := contractInteraction.QueryEvent(v, int64(lastBlock), nextBlock, v.BridgeAddress, abi)
+		data, method, err := blockchain.QueryEvent(v, int64(lastBlock), nextBlock, v.BridgeAddress, abi)
 		h.handleEvent(data, method, v)
 		if err != nil {
 			log.WithFields(log.Fields{"err": err}).Info("Unable to parse event in sync")
 		}
-		err = embeddeddatabase.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", nextBlock)))
+		err = db.Write([]byte("block"), []byte(v.Name), []byte(fmt.Sprintf("%v", nextBlock)))
 		if err != nil {
 			log.WithFields(log.Fields{
 				"status": "syncing",

@@ -4,14 +4,13 @@ import (
 	ethABI "github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
 	"math/big"
-	"puffinbridgebackend/global"
+	"puffinbridgebackend/config"
 )
 
 type Handler struct {
 	BridgeQueue []BridgeRequest
 	BridgeABI   ethABI.ABI
 	Blocks      map[string]int
-	Logs        []LogHistory
 }
 
 type LogHistory struct {
@@ -24,8 +23,8 @@ type LogHistory struct {
 
 type BridgeRequest struct {
 	Id         [32]byte
-	NetworkIn  global.Networks
-	NetworkOut global.Networks
+	NetworkIn  config.Networks
+	NetworkOut config.Networks
 	User       common.Address
 	Asset      common.Address
 	Amount     *big.Int

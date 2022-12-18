@@ -7,7 +7,6 @@ import (
 	log "github.com/sirupsen/logrus"
 	"math/big"
 	"puffinbridgebackend/config"
-	"puffinbridgebackend/global"
 )
 
 // DialEthClient attempts to connect to an Ethereum client using the given RPC URL
@@ -25,7 +24,7 @@ func DialEthClient(rpcURL string) (*ethclient.Client, error) {
 }
 
 // Balance returns the balance of the wallet with the given public key on the given network
-func Balance(network global.Networks) (*big.Int, error) {
+func Balance(network config.Networks) (*big.Int, error) {
 	conn, err := DialEthClient(network.RpcURL)
 	if err != nil {
 		return big.NewInt(0), err
@@ -44,7 +43,7 @@ func Balance(network global.Networks) (*big.Int, error) {
 }
 
 // Block returns the latest block number on the given network
-func Block(network global.Networks) (*big.Int, error) {
+func Block(network config.Networks) (*big.Int, error) {
 	conn, err := DialEthClient(network.RpcURL)
 	if err != nil {
 		return big.NewInt(0), err

@@ -7,17 +7,16 @@ import (
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/crypto/sha3"
 	"io/ioutil"
 	"math/big"
 	"os"
-	"puffinbridgebackend/global"
+	"puffinbridgebackend/util"
 )
 
 var PrivateKey *ecdsa.PrivateKey
 var PublicKey string
-var Networks map[string]global.Networks
-var Subnet global.Networks
+var NetworksMap map[string]Networks
+var Subnet Networks
 var APIPort string
 var APIEnabled bool
 
@@ -31,11 +30,16 @@ func init() {
 		}
 		privateKeyBytes := crypto.FromECDSA(privateKey)
 
-		file, _ := json.MarshalIndent(global.ConfigStruct{
-			PrivateKey: fmt.Sprintf("%v", hexutil.Encode(privateKeyBytes)[2:]),
-			APIPort:    "8080",
+		fmt.Println("Enter private key passphrase: ")
+		var k string
+		fmt.Scanln(&k)
+
+		util.EncryptAES([]byte(k), []byte(hexutil.Encode(privateKeyBytes)[2:]))
+
+		file, _ := json.MarshalIndent(ConfigStruct{
+			APIPort:    "1234",
 			APIEnabled: true,
-			Networks: map[string]global.Networks{
+			Networks: map[string]Networks{
 				"fuji": {
 					Name:             "fuji",
 					RpcURL:           "https://node.thepuffin.network/ext/bc/C/rpc",
@@ -46,7 +50,7 @@ func init() {
 					BlockRequirement: 3,
 				},
 			},
-			Subnet: global.Networks{
+			Subnet: Networks{
 				Name:             "puffin",
 				RpcURL:           "https://node.thepuffin.network/ext/bc/273dwzFtrR6JQzLncTAbN5RBtiqdysVfKTJKBvYHhtUHBnrYWe/rpc",
 				WSURL:            "ws://52.35.42.217:9650/ext/bc/273dwzFtrR6JQzLncTAbN5RBtiqdysVfKTJKBvYHhtUHBnrYWe/ws",
@@ -65,7 +69,7 @@ func init() {
 		log.Fatal("Config JSON invalid", err)
 	}
 
-	var config global.ConfigStruct
+	var config ConfigStruct
 	err = json.Unmarshal(byteValue, &config)
 	if err != nil {
 		log.Fatal("Could not parse config", err)
@@ -76,13 +80,12 @@ func init() {
 		config.PrivateKey = key
 	}
 
-	Networks = config.Networks
+	NetworksMap = config.Networks
 	Subnet = config.Subnet
-	if config.PrivateKey != "" {
-		_publicKey, _privateKey := GenerateECDSAKey(config.PrivateKey)
-		PublicKey = _publicKey
-		PrivateKey = _privateKey
-	}
+
+	_publicKey, _privateKey := util.GenerateECDSAKey(util.DecryptAES([]byte(os.Getenv("pass"))))
+	PublicKey = _publicKey
+	PrivateKey = _privateKey
 	APIPort = config.APIPort
 	APIEnabled = config.APIEnabled
 
@@ -90,21 +93,4 @@ func init() {
 
 }
 
-func GenerateECDSAKey(pkey string) (string, *ecdsa.PrivateKey) {
-	privateKey, err := crypto.HexToECDSA(pkey)
-	if err != nil {
-		log.Println(err)
-	}
 
-	publicKey := privateKey.Public()
-	publicKeyECDSA, _ := publicKey.(*ecdsa.PublicKey)
-
-	publicKeyBytes := crypto.FromECDSAPub(publicKeyECDSA)
-
-	hash := sha3.NewLegacyKeccak256()
-	hash.Write(publicKeyBytes[1:])
-	_publicKey := hexutil.Encode(hash.Sum(nil)[12:])
-	_privateKey := privateKey
-
-	return _publicKey, _privateKey
-}

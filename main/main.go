@@ -8,8 +8,7 @@ import (
 	"os"
 	"puffinbridgebackend/api"
 	"puffinbridgebackend/config"
-	"puffinbridgebackend/embeddeddatabase"
-	"puffinbridgebackend/global"
+	"puffinbridgebackend/db"
 	"puffinbridgebackend/handler"
 	"puffinbridgebackend/initialize"
 )
@@ -39,16 +38,10 @@ func main() {
 	var _handler = handler.Handler{}
 
 	var logHistory []handler.LogHistory
-	logs, err := embeddeddatabase.Read([]byte("logs"), []byte("logs"))
+	logs, err := db.Read([]byte("logs"), []byte("logs"))
 
 	err = json.Unmarshal(logs, &logHistory)
-	if err == nil {
-		_handler.Logs = logHistory
-	}
 
-	for _, v := range _handler.Logs {
-		global.Logs = append(global.Logs, v)
-	}
 
 	_handler.RunHandler()
 }
