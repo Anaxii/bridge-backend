@@ -10,7 +10,6 @@ import (
 	"puffinbridgebackend/config"
 )
 
-
 func IsKYCOnMainnet(network config.Networks) bool {
 	conn, err := ethclient.Dial(network.RpcURL)
 	if err != nil {
@@ -75,6 +74,3 @@ func IsVoterOnMainnet(network config.Networks) bool {
 
 	return isEnabled
 }
-
-
-

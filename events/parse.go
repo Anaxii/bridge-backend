@@ -39,9 +39,9 @@ func FindEvent(logs []types.Log, abi ethABI.ABI) (interface{}, string, error) {
 func logBridge(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeData, error) {
 	log.WithFields(log.Fields{
 		"bridge_address": vLog.Address,
-		"block":   vLog.BlockNumber,
-		"tx_hash": vLog.TxHash,
-		"method": method,
+		"block":          vLog.BlockNumber,
+		"tx_hash":        vLog.TxHash,
+		"method":         method,
 	}).Info("New bridge event")
 
 	var data LogBridgeData
@@ -49,9 +49,9 @@ func logBridge(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeData, e
 	if err != nil {
 		log.WithFields(log.Fields{
 			"bridge_address": vLog.Address,
-			"block":   vLog.BlockNumber,
-			"tx_hash": vLog.TxHash,
-			"method": method,
+			"block":          vLog.BlockNumber,
+			"tx_hash":        vLog.TxHash,
+			"method":         method,
 		}).Error("Could not unpack event")
 		return LogBridgeData{}, err
 	}
@@ -66,9 +66,9 @@ func logBridge(_abi ethABI.ABI, method string, vLog types.Log) (LogBridgeData, e
 func logBridgeCancel(method string, vLog types.Log) (LogBridgeCancelData, error) {
 	log.WithFields(log.Fields{
 		"bridge_address": vLog.Address,
-		"block":   vLog.BlockNumber,
-		"tx_hash": vLog.TxHash,
-		"method": method,
+		"block":          vLog.BlockNumber,
+		"tx_hash":        vLog.TxHash,
+		"method":         method,
 	}).Info("New bridge event")
 
 	var data LogBridgeCancelData

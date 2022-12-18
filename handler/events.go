@@ -73,7 +73,6 @@ func (h *Handler) handleEvent(data interface{}, method string, network config.Ne
 	}
 }
 
-
 func getOtherNetwork(network config.Networks) config.Networks {
 	if network.ChainId == big.NewInt(43113114) {
 		return config.Subnet

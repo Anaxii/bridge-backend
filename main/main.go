@@ -42,6 +42,5 @@ func main() {
 
 	err = json.Unmarshal(logs, &logHistory)
 
-
 	_handler.RunHandler()
 }

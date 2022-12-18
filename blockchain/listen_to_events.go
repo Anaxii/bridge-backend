@@ -38,8 +38,8 @@ func ListenToEvents(network config.Networks, _contractAddress string, events cha
 	go func() {
 		for {
 			select {
-				case ev := <-event:
-					events <- config.NetworkLog{Network: network, Log: ev}
+			case ev := <-event:
+				events <- config.NetworkLog{Network: network, Log: ev}
 			}
 		}
 	}()

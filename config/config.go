@@ -92,5 +92,3 @@ func init() {
 	log.Info("Config initialized")
 
 }
-
-
