@@ -4,9 +4,9 @@ import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
 	"math/big"
-	"puffinbridgebackend/blockchain"
-	"puffinbridgebackend/config"
-	"puffinbridgebackend/wallet"
+	"puffinbridgebackend/internal/blockchain"
+	"puffinbridgebackend/internal/config"
+	"puffinbridgebackend/pkg/wallet"
 )
 
 func checkForBalances() bool {

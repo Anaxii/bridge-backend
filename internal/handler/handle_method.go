@@ -3,7 +3,7 @@ package handler
 import (
 	"fmt"
 	log "github.com/sirupsen/logrus"
-	"puffinbridgebackend/blockchain"
+	"puffinbridgebackend/internal/blockchain"
 )
 
 func (h *Handler) bridgeIn(v BridgeRequest) bool {

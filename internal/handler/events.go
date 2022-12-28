@@ -2,11 +2,10 @@ package handler
 
 import (
 	log "github.com/sirupsen/logrus"
-	"math/big"
-	"puffinbridgebackend/api"
-	"puffinbridgebackend/blockchain"
-	"puffinbridgebackend/config"
-	"puffinbridgebackend/events"
+	"puffinbridgebackend/internal/api"
+	"puffinbridgebackend/internal/blockchain"
+	"puffinbridgebackend/internal/config"
+	"puffinbridgebackend/internal/events"
 	"time"
 )
 
@@ -74,9 +73,9 @@ func (h *Handler) handleEvent(data interface{}, method string, network config.Ne
 }
 
 func getOtherNetwork(network config.Networks) config.Networks {
-	if network.ChainId == big.NewInt(43113114) {
+	if network.Name == "puffin" {
 		return config.Subnet
 	}
 
-	return config.NetworksMap["fuji"]
+	return config.NetworksMap[network.Name]
 }

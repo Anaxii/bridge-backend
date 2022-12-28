@@ -8,8 +8,8 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
 	"math/big"
-	"puffinbridgebackend/config"
-	"puffinbridgebackend/events"
+	"puffinbridgebackend/internal/config"
+	"puffinbridgebackend/internal/events"
 )
 
 func QueryEvent(network config.Networks, blockStart int64, blockEnd int64, address string, abi abi.ABI) (interface{}, string, error) {

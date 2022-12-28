@@ -7,8 +7,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	_log "log"
 	"net/http"
-	"puffinbridgebackend/config"
-	"puffinbridgebackend/util"
+	"puffinbridgebackend/internal/config"
+	"puffinbridgebackend/pkg/util"
 )
 
 var upgrader = websocket.Upgrader{

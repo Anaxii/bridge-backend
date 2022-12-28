@@ -6,8 +6,8 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
 	"math/big"
-	abi "puffinbridgebackend/blockchain/contractABI"
-	"puffinbridgebackend/config"
+	abi "puffinbridgebackend/internal/blockchain/contractABI"
+	"puffinbridgebackend/internal/config"
 )
 
 func ProposeOut(network config.Networks, user common.Address, asset common.Address, amount *big.Int, id [32]byte) error {

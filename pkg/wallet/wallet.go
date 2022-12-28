@@ -6,7 +6,7 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
 	"math/big"
-	"puffinbridgebackend/config"
+	"puffinbridgebackend/internal/config"
 )
 
 // DialEthClient attempts to connect to an Ethereum client using the given RPC URL

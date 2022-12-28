@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"github.com/ethereum/go-ethereum/core/types"
 	log "github.com/sirupsen/logrus"
-	"puffinbridgebackend/api"
-	"puffinbridgebackend/blockchain"
-	"puffinbridgebackend/config"
-	"puffinbridgebackend/db"
-	"puffinbridgebackend/events"
-	"puffinbridgebackend/wallet"
+	"puffinbridgebackend/internal/api"
+	"puffinbridgebackend/internal/blockchain"
+	"puffinbridgebackend/internal/config"
+	"puffinbridgebackend/internal/events"
+	"puffinbridgebackend/pkg/db"
+	"puffinbridgebackend/pkg/wallet"
 	"time"
 )
 

@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"puffinbridgebackend/api"
+	"puffinbridgebackend/internal/api"
 	"time"
 )
 

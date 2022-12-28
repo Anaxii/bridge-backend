@@ -6,8 +6,8 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"log"
 	"math/big"
-	abi "puffinbridgebackend/blockchain/contractABI"
-	"puffinbridgebackend/config"
+	abi "puffinbridgebackend/internal/blockchain/contractABI"
+	"puffinbridgebackend/internal/config"
 )
 
 func IsKYCOnMainnet(network config.Networks) bool {

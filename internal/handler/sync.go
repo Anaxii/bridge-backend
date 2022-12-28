@@ -5,10 +5,10 @@ import (
 	ethABI "github.com/ethereum/go-ethereum/accounts/abi"
 	log "github.com/sirupsen/logrus"
 	"math/big"
-	"puffinbridgebackend/blockchain"
-	"puffinbridgebackend/config"
-	"puffinbridgebackend/db"
-	"puffinbridgebackend/wallet"
+	"puffinbridgebackend/internal/blockchain"
+	"puffinbridgebackend/internal/config"
+	"puffinbridgebackend/pkg/db"
+	"puffinbridgebackend/pkg/wallet"
 	"strconv"
 )
 

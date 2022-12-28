@@ -7,7 +7,7 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
-	"puffinbridgebackend/config"
+	"puffinbridgebackend/internal/config"
 )
 
 func ListenToEvents(network config.Networks, _contractAddress string, events chan config.NetworkLog) {

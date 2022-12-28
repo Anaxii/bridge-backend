@@ -3,9 +3,9 @@ package handler
 import (
 	ethABI "github.com/ethereum/go-ethereum/accounts/abi"
 	log "github.com/sirupsen/logrus"
-	abi "puffinbridgebackend/blockchain/contractABI"
-	"puffinbridgebackend/config"
-	"puffinbridgebackend/wallet"
+	abi "puffinbridgebackend/internal/blockchain/contractABI"
+	"puffinbridgebackend/internal/config"
+	"puffinbridgebackend/pkg/wallet"
 	"strings"
 )
 

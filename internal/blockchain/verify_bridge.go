@@ -4,8 +4,8 @@ import (
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 	log "github.com/sirupsen/logrus"
-	abi "puffinbridgebackend/blockchain/contractABI"
-	"puffinbridgebackend/config"
+	abi "puffinbridgebackend/internal/blockchain/contractABI"
+	"puffinbridgebackend/internal/config"
 )
 
 func IDExists(network config.Networks, requestId [32]byte) bool {

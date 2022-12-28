@@ -6,11 +6,11 @@ import (
 	log "github.com/sirupsen/logrus"
 	"io"
 	"os"
-	"puffinbridgebackend/api"
-	"puffinbridgebackend/config"
-	"puffinbridgebackend/db"
-	"puffinbridgebackend/handler"
-	"puffinbridgebackend/initialize"
+	"puffinbridgebackend/internal/api"
+	"puffinbridgebackend/internal/config"
+	"puffinbridgebackend/internal/handler"
+	"puffinbridgebackend/internal/initialize"
+	"puffinbridgebackend/pkg/db"
 )
 
 func main() {
